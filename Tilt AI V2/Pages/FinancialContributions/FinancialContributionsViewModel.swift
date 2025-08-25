@@ -14,6 +14,7 @@ class FinancialContributionsViewModel {
     // Published properties for the view to observe
     var onLoadingStateChanged: ((Bool) -> Void)?
     var onDataLoaded: ((String) -> Void)?
+    var onFullDataLoaded: ((FinancialContributionsResponse) -> Void)? // NEW: Full data callback
     var onError: ((String) -> Void)?
     
     func fetchFinancialContributions(for organizationName: String) {
@@ -25,7 +26,10 @@ class FinancialContributionsViewModel {
                 
                 switch result {
                 case .success(let financialResponse):
+                    // Send both the text and full response
+                    // TODO: consolidate these. No need to call both. (i think..)
                     self?.onDataLoaded?(financialResponse.fecFinancialContributionsSummaryText)
+                    self?.onFullDataLoaded?(financialResponse) // NEW: Pass full response
                 case .failure(let error):
                     self?.onError?(error.localizedDescription)
                 }

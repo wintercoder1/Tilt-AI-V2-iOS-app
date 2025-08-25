@@ -4,6 +4,7 @@
 //
 //  Created by Steve on 8/21/25.
 //
+
 import UIKit
 import Foundation
 
@@ -15,13 +16,15 @@ class FinancialContributionsViewController: UIViewController {
     private let headerView = UIView()
     private let backButton = UIButton(type: .system)
     private let titleLabel = UILabel()
-    private let cardView = UIView()
+    private let contributionsBreakdownCardView = UIView()
+    private let detailsCardView = UIView()
     private let loadingView = UIView()
     private let spinnerView = UIView()
     private let loadingLabel = UILabel()
     
     private var organizationName: String = ""
     private var viewModel: FinancialContributionsViewModel!
+    private var financialContributions: FinancialContributionsResponse?
     private weak var coordinator: AppCoordinator?
     
     override func viewDidLoad() {
@@ -37,7 +40,8 @@ class FinancialContributionsViewController: UIViewController {
         self.coordinator = coordinator
     }
     
-    private func bindViewModel() {
+    // Update the bindViewModel method to handle the new callback
+    private func bindViewModelUpdated() {
         viewModel.onLoadingStateChanged = { [weak self] isLoading in
             if isLoading {
                 self?.showLoading()
@@ -50,8 +54,45 @@ class FinancialContributionsViewController: UIViewController {
             self?.showFinancialContent(financialText)
         }
         
+        // NEW: Handle the full data response
+        viewModel.onFullDataLoaded = { [weak self] financialResponse in
+            self?.setFinancialContributions(financialResponse)
+        }
+        
         viewModel.onError = { [weak self] errorMessage in
             self?.showError(errorMessage)
+        }
+    }
+    
+    private func bindViewModel() {
+        viewModel.onLoadingStateChanged = { [weak self] isLoading in
+            if isLoading {
+                self?.showLoading()
+            } else {
+                self?.hideLoading()
+            }
+        }
+        
+        viewModel.onDataLoaded = { [weak self] financialText in
+            self?.showFinancialContent(financialText)
+        }
+        // May be redundant.
+        // TODO: Combine this with the above call and refactor of what this calls.
+        viewModel.onFullDataLoaded = { [weak self] financialResponse in
+            self?.setFinancialContributions(financialResponse)
+        }
+        
+        viewModel.onError = { [weak self] errorMessage in
+            self?.showError(errorMessage)
+        }
+    }
+    
+    
+    // Add this method to receive the full financial contributions data
+    func setFinancialContributions(_ contributions: FinancialContributionsResponse) {
+        self.financialContributions = contributions
+        DispatchQueue.main.async {
+            self.updateContributionsBreakdownCard()
         }
     }
     
@@ -65,7 +106,8 @@ class FinancialContributionsViewController: UIViewController {
         scrollView.addSubview(contentView)
         
         setupHeader()
-        setupCard()
+        setupContributionsBreakdownCard()
+        setupDetailsCard()
         setupLoadingView()
     }
     
@@ -98,16 +140,29 @@ class FinancialContributionsViewController: UIViewController {
         ])
     }
     
-    private func setupCard() {
-        cardView.backgroundColor = .white
-        cardView.layer.cornerRadius = 16
-        cardView.layer.shadowColor = UIColor.black.cgColor
-        cardView.layer.shadowOffset = CGSize(width: 0, height: 8)
-        cardView.layer.shadowRadius = 16
-        cardView.layer.shadowOpacity = 0.1
-        cardView.translatesAutoresizingMaskIntoConstraints = false
+    private func setupContributionsBreakdownCard() {
+        contributionsBreakdownCardView.backgroundColor = .white
+        contributionsBreakdownCardView.layer.cornerRadius = 16
+        contributionsBreakdownCardView.layer.shadowColor = UIColor.black.cgColor
+        contributionsBreakdownCardView.layer.shadowOffset = CGSize(width: 0, height: 8)
+        contributionsBreakdownCardView.layer.shadowRadius = 16
+        contributionsBreakdownCardView.layer.shadowOpacity = 0.1
+        contributionsBreakdownCardView.translatesAutoresizingMaskIntoConstraints = false
+        contributionsBreakdownCardView.isHidden = true // Initially hidden until data loads
         
-        contentView.addSubview(cardView)
+        contentView.addSubview(contributionsBreakdownCardView)
+    }
+    
+    private func setupDetailsCard() {
+        detailsCardView.backgroundColor = .white
+        detailsCardView.layer.cornerRadius = 16
+        detailsCardView.layer.shadowColor = UIColor.black.cgColor
+        detailsCardView.layer.shadowOffset = CGSize(width: 0, height: 8)
+        detailsCardView.layer.shadowRadius = 16
+        detailsCardView.layer.shadowOpacity = 0.1
+        detailsCardView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(detailsCardView)
     }
     
     private func setupLoadingView() {
@@ -127,13 +182,13 @@ class FinancialContributionsViewController: UIViewController {
         
         loadingView.addSubview(loadingLabel)
         loadingView.addSubview(spinnerView)
-        cardView.addSubview(loadingView)
+        detailsCardView.addSubview(loadingView)
         
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: cardView.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
+            loadingView.topAnchor.constraint(equalTo: detailsCardView.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: detailsCardView.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: detailsCardView.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: detailsCardView.bottomAnchor),
             
             loadingLabel.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             loadingLabel.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor, constant: -30),
@@ -145,6 +200,183 @@ class FinancialContributionsViewController: UIViewController {
         ])
         
         startLoadingSpinner()
+    }
+    
+    private func updateContributionsBreakdownCard() {
+        guard let contributions = financialContributions,
+              let percentContributions = contributions.percentContributions else {
+            contributionsBreakdownCardView.isHidden = true
+            print("|| contributionsBreakdownCardView.isHidden = true ||")
+            return
+        }
+        
+        contributionsBreakdownCardView.isHidden = false
+        print("|| contributionsBreakdownCardView.isHidden NOT HIDDEN ||")
+        
+        // Clear existing content
+        contributionsBreakdownCardView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Title
+        let titleLabel = UILabel()
+        titleLabel.text = "Contributions to Each Party"
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textColor = .black
+        
+        // Total contributions
+        let totalLabel = UILabel()
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 0
+        let totalAmount = formatter.string(from: NSNumber(value: percentContributions.totalContributions)) ?? "$0"
+        totalLabel.text = "Total Contributions: \(totalAmount)"
+        totalLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        totalLabel.textColor = .black
+        
+        // Party breakdown
+        let partyStackView = UIStackView()
+        partyStackView.axis = .vertical
+        partyStackView.spacing = 12
+        
+        // Republicans
+        let republicanAmount = formatter.string(from: NSNumber(value: percentContributions.totalToRepublicans)) ?? "$0"
+        let republicanLabel = UILabel()
+        republicanLabel.text = "To Republicans: \(republicanAmount) (\(String(format: "%.2f", percentContributions.percentToRepublicans))%)"
+        republicanLabel.font = UIFont.systemFont(ofSize: 16)
+        republicanLabel.textColor = .black
+        
+        // Democrats
+        let democratAmount = formatter.string(from: NSNumber(value: percentContributions.totalToDemocrats)) ?? "$0"
+        let democratLabel = UILabel()
+        democratLabel.text = "To Democrats: \(democratAmount) (\(String(format: "%.2f", percentContributions.percentToDemocrats))%)"
+        democratLabel.font = UIFont.systemFont(ofSize: 16)
+        democratLabel.textColor = .black
+        
+        partyStackView.addArrangedSubview(republicanLabel)
+        partyStackView.addArrangedSubview(democratLabel)
+        
+        // Progress bar container
+        let progressBarContainer = UIView()
+        progressBarContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Background bar
+        let backgroundBar = UIView()
+        backgroundBar.backgroundColor = .systemGray5
+        backgroundBar.layer.cornerRadius = 6
+        backgroundBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Democratic bar (blue)
+        let democraticBar = UIView()
+        democraticBar.backgroundColor = .systemBlue
+        democraticBar.layer.cornerRadius = 6
+        democraticBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Republican bar (red)
+        let republicanBar = UIView()
+        republicanBar.backgroundColor = .systemRed
+        republicanBar.layer.cornerRadius = 6
+        republicanBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        progressBarContainer.addSubview(backgroundBar)
+        progressBarContainer.addSubview(democraticBar)
+        progressBarContainer.addSubview(republicanBar)
+        
+        // Legend
+        let legendStackView = UIStackView()
+        legendStackView.axis = .horizontal
+        legendStackView.distribution = .equalSpacing
+        legendStackView.alignment = .center
+        
+        // Democratic legend
+        let democraticLegendStack = UIStackView()
+        democraticLegendStack.axis = .horizontal
+        democraticLegendStack.spacing = 8
+        democraticLegendStack.alignment = .center
+        
+        let democraticDot = UIView()
+        democraticDot.backgroundColor = .systemBlue
+        democraticDot.layer.cornerRadius = 6
+        democraticDot.translatesAutoresizingMaskIntoConstraints = false
+        
+        let democraticLegendLabel = UILabel()
+        democraticLegendLabel.text = "Democrats"
+        democraticLegendLabel.font = UIFont.systemFont(ofSize: 14)
+        democraticLegendLabel.textColor = .black
+        
+        democraticLegendStack.addArrangedSubview(democraticDot)
+        democraticLegendStack.addArrangedSubview(democraticLegendLabel)
+        
+        // Republican legend
+        let republicanLegendStack = UIStackView()
+        republicanLegendStack.axis = .horizontal
+        republicanLegendStack.spacing = 8
+        republicanLegendStack.alignment = .center
+        
+        let republicanDot = UIView()
+        republicanDot.backgroundColor = .systemRed
+        republicanDot.layer.cornerRadius = 6
+        republicanDot.translatesAutoresizingMaskIntoConstraints = false
+        
+        let republicanLegendLabel = UILabel()
+        republicanLegendLabel.text = "Republicans"
+        republicanLegendLabel.font = UIFont.systemFont(ofSize: 14)
+        republicanLegendLabel.textColor = .black
+        
+        republicanLegendStack.addArrangedSubview(republicanDot)
+        republicanLegendStack.addArrangedSubview(republicanLegendLabel)
+        
+        legendStackView.addArrangedSubview(democraticLegendStack)
+        legendStackView.addArrangedSubview(republicanLegendStack)
+        
+        // Add all elements to main stack
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(totalLabel)
+        stackView.addArrangedSubview(partyStackView)
+        stackView.addArrangedSubview(progressBarContainer)
+        stackView.addArrangedSubview(legendStackView)
+        
+        contributionsBreakdownCardView.addSubview(stackView)
+        
+        // Constraints
+        NSLayoutConstraint.activate([
+            // Main stack view
+            stackView.topAnchor.constraint(equalTo: contributionsBreakdownCardView.topAnchor, constant: 30),
+            stackView.leadingAnchor.constraint(equalTo: contributionsBreakdownCardView.leadingAnchor, constant: 30),
+            stackView.trailingAnchor.constraint(equalTo: contributionsBreakdownCardView.trailingAnchor, constant: -30),
+            stackView.bottomAnchor.constraint(equalTo: contributionsBreakdownCardView.bottomAnchor, constant: -30),
+            
+            // Progress bar container
+            progressBarContainer.heightAnchor.constraint(equalToConstant: 12),
+            
+            // Background bar
+            backgroundBar.topAnchor.constraint(equalTo: progressBarContainer.topAnchor),
+            backgroundBar.leadingAnchor.constraint(equalTo: progressBarContainer.leadingAnchor),
+            backgroundBar.trailingAnchor.constraint(equalTo: progressBarContainer.trailingAnchor),
+            backgroundBar.bottomAnchor.constraint(equalTo: progressBarContainer.bottomAnchor),
+            
+            // Democratic bar (left side)
+            democraticBar.topAnchor.constraint(equalTo: progressBarContainer.topAnchor),
+            democraticBar.leadingAnchor.constraint(equalTo: progressBarContainer.leadingAnchor),
+            democraticBar.bottomAnchor.constraint(equalTo: progressBarContainer.bottomAnchor),
+            democraticBar.widthAnchor.constraint(equalTo: progressBarContainer.widthAnchor, multiplier: CGFloat(percentContributions.percentToDemocrats / 100.0)),
+            
+            // Republican bar (right side)
+            republicanBar.topAnchor.constraint(equalTo: progressBarContainer.topAnchor),
+            republicanBar.trailingAnchor.constraint(equalTo: progressBarContainer.trailingAnchor),
+            republicanBar.bottomAnchor.constraint(equalTo: progressBarContainer.bottomAnchor),
+            republicanBar.widthAnchor.constraint(equalTo: progressBarContainer.widthAnchor, multiplier: CGFloat(percentContributions.percentToRepublicans / 100.0)),
+            
+            // Legend dots
+            democraticDot.widthAnchor.constraint(equalToConstant: 12),
+            democraticDot.heightAnchor.constraint(equalToConstant: 12),
+            
+            republicanDot.widthAnchor.constraint(equalToConstant: 12),
+            republicanDot.heightAnchor.constraint(equalToConstant: 12)
+        ])
     }
     
     private func startLoadingSpinner() {
@@ -195,17 +427,35 @@ class FinancialContributionsViewController: UIViewController {
             headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             headerView.heightAnchor.constraint(equalToConstant: 44),
             
-            // Card view
-            cardView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
-            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            cardView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
-            cardView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -40)
+//            // Contributions breakdown card
+//            contributionsBreakdownCardView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
+//            contributionsBreakdownCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+//            contributionsBreakdownCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+//            
+//            // Details card view
+//            detailsCardView.topAnchor.constraint(equalTo: contributionsBreakdownCardView.bottomAnchor, constant: 20),
+//            detailsCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+//            detailsCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+//            detailsCardView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
+//            detailsCardView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -40)
+            
+            // Details card view (first)
+            detailsCardView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
+            detailsCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailsCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            detailsCardView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
+            
+            // Contributions breakdown card (second)
+            contributionsBreakdownCardView.topAnchor.constraint(equalTo: detailsCardView.bottomAnchor, constant: 20),
+            contributionsBreakdownCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            contributionsBreakdownCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            contributionsBreakdownCardView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -40)
         ])
     }
     
     private func showLoading() {
         loadingView.isHidden = false
+        contributionsBreakdownCardView.isHidden = true
     }
     
     private func hideLoading() {
@@ -213,8 +463,10 @@ class FinancialContributionsViewController: UIViewController {
     }
     
     private func showFinancialContent(_ financialText: String) {
-        // Clear existing content in card (except loading view)
-        cardView.subviews.forEach { subview in
+//    private func showFinancialContent(_ financialContributionsResponse: FinancialContributionsResponse) {
+//        let financialText = financialContributionsResponse.fecFinancialContributionsSummaryText
+        // Clear existing content in details card (except loading view)
+        detailsCardView.subviews.forEach { subview in
             if subview != loadingView {
                 subview.removeFromSuperview()
             }
@@ -242,23 +494,28 @@ class FinancialContributionsViewController: UIViewController {
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(contentLabel)
         
-        cardView.addSubview(stackView)
+        detailsCardView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 30),
-            stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 30),
-            stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -30),
-            stackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -30)
+            stackView.topAnchor.constraint(equalTo: detailsCardView.topAnchor, constant: 30),
+            stackView.leadingAnchor.constraint(equalTo: detailsCardView.leadingAnchor, constant: 30),
+            stackView.trailingAnchor.constraint(equalTo: detailsCardView.trailingAnchor, constant: -30),
+            stackView.bottomAnchor.constraint(equalTo: detailsCardView.bottomAnchor, constant: -30)
         ])
+        
+        // Update the breakdown card as well
+        updateContributionsBreakdownCard()
     }
     
     private func showError(_ message: String) {
-        // Clear existing content in card (except loading view)
-        cardView.subviews.forEach { subview in
+        // Clear existing content in details card (except loading view)
+        detailsCardView.subviews.forEach { subview in
             if subview != loadingView {
                 subview.removeFromSuperview()
             }
         }
+        
+        contributionsBreakdownCardView.isHidden = true
         
         let errorStackView = UIStackView()
         errorStackView.axis = .vertical
@@ -293,13 +550,13 @@ class FinancialContributionsViewController: UIViewController {
         errorStackView.addArrangedSubview(detailLabel)
         errorStackView.addArrangedSubview(retryButton)
         
-        cardView.addSubview(errorStackView)
+        detailsCardView.addSubview(errorStackView)
         
         NSLayoutConstraint.activate([
-            errorStackView.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
-            errorStackView.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
-            errorStackView.leadingAnchor.constraint(greaterThanOrEqualTo: cardView.leadingAnchor, constant: 30),
-            errorStackView.trailingAnchor.constraint(lessThanOrEqualTo: cardView.trailingAnchor, constant: -30)
+            errorStackView.centerXAnchor.constraint(equalTo: detailsCardView.centerXAnchor),
+            errorStackView.centerYAnchor.constraint(equalTo: detailsCardView.centerYAnchor),
+            errorStackView.leadingAnchor.constraint(greaterThanOrEqualTo: detailsCardView.leadingAnchor, constant: 30),
+            errorStackView.trailingAnchor.constraint(lessThanOrEqualTo: detailsCardView.trailingAnchor, constant: -30)
         ])
     }
     
@@ -311,3 +568,4 @@ class FinancialContributionsViewController: UIViewController {
         coordinator?.navigateBack()
     }
 }
+

@@ -169,7 +169,7 @@ class ResultsViewController: UIViewController {
             footerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40)
         ])
     }
-
+    
     private func updateContent() {
         guard let analysis = analysis else { return }
     

@@ -53,6 +53,12 @@ class AppCoordinator: Coordinator {
     func showFinancialContributionsScreen(organizationName: String, viewModel: FinancialContributionsViewModel) {
         let financialVC = FinancialContributionsViewController()
         financialVC.configure(organizationName: organizationName, viewModel: viewModel, coordinator: self)
+        
+        // NEW: Bind the full data callback to update the view controller
+        viewModel.onFullDataLoaded = { [weak financialVC] financialResponse in
+            financialVC?.setFinancialContributions(financialResponse)
+        }
+        
         navigationController.pushViewController(financialVC, animated: true)
     }
     
