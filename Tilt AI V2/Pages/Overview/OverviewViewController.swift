@@ -4,7 +4,6 @@
 //
 //  Created by Steve on 8/21/25.
 //
-
 import UIKit
 import Foundation
 
@@ -16,6 +15,7 @@ class OverviewViewController: UIViewController {
     private var headerView: TiltAIHeaderView!
     private let cardView = UIView()
     private let footerStackView = UIStackView()
+    private let bottomPaddingView = UIView()
     
     private var analysis: OrganizationAnalysis?
     private var organizationName: String = ""
@@ -59,7 +59,7 @@ class OverviewViewController: UIViewController {
         scrollView.addSubview(contentView)
         
         setupCard()
-        setupFooter()
+        setupFooterOld()
     }
     
     private func setupCard() {
@@ -74,31 +74,35 @@ class OverviewViewController: UIViewController {
         contentView.addSubview(cardView)
     }
     
-    private func setupFooter() {
+    private func setupFooterOld() {
         footerStackView.axis = .vertical
         footerStackView.spacing = 8
         footerStackView.alignment = .center
         footerStackView.translatesAutoresizingMaskIntoConstraints = false
+        footerStackView.backgroundColor = .white
+        bottomPaddingView.translatesAutoresizingMaskIntoConstraints = false
+        bottomPaddingView.backgroundColor = .white
+//        bottomPaddingView.backgroundColor = .cyan
         
         let copyrightLabel = UILabel()
-        copyrightLabel.text = "© 2025 Correlation LLC. All rights reserved."
+        copyrightLabel.text = "  © 2025 Correlation LLC. All rights reserved.  "
         copyrightLabel.font = UIFont.systemFont(ofSize: 14)
         copyrightLabel.textColor = .systemGray
         copyrightLabel.textAlignment = .center
         
         let dataSourceLabel = UILabel()
-        dataSourceLabel.text = "Data sourced from public FEC filings and other regulatory sources."
+        dataSourceLabel.text = "  Data sourced from public FEC filings and other regulatory sources.  "
         dataSourceLabel.font = UIFont.systemFont(ofSize: 14)
         dataSourceLabel.textColor = .systemGray
         dataSourceLabel.textAlignment = .center
         dataSourceLabel.numberOfLines = 0
         
-        let emailImageView = UIImageView(image: UIImage(systemName: "envelope"))
-        emailImageView.tintColor = .systemGray
-        emailImageView.contentMode = .scaleAspectFit
+//        let emailImageView = UIImageView(image: UIImage(systemName: "envelope"))
+//        emailImageView.tintColor = .systemGray
+//        emailImageView.contentMode = .scaleAspectFit
         
         let disclaimerLabel = UILabel()
-        disclaimerLabel.text = "This website provides information derived from publicly available data. Tilt AI and Correlation LLC do not endorse any political candidates or organizations mentioned."
+        disclaimerLabel.text = "  This website provides information derived from publicly available data. Tilt AI and Correlation LLC do not endorse any political candidates or organizations mentioned.  "
         disclaimerLabel.font = UIFont.systemFont(ofSize: 12)
         disclaimerLabel.textColor = .systemGray
         disclaimerLabel.textAlignment = .center
@@ -106,13 +110,16 @@ class OverviewViewController: UIViewController {
         
         footerStackView.addArrangedSubview(copyrightLabel)
         footerStackView.addArrangedSubview(dataSourceLabel)
-        footerStackView.addArrangedSubview(emailImageView)
+//        footerStackView.addArrangedSubview(emailImageView)
         footerStackView.addArrangedSubview(disclaimerLabel)
         
         contentView.addSubview(footerStackView)
+        contentView.addSubview(bottomPaddingView)
+        
     }
     
     private func setupConstraints() {
+        let footerViewHeight: CGFloat = 140.0
         NSLayoutConstraint.activate([
             // Scroll view - positioned below the header
             scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
@@ -133,10 +140,17 @@ class OverviewViewController: UIViewController {
             cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             // Footer
-            footerStackView.topAnchor.constraint(greaterThanOrEqualTo: cardView.bottomAnchor, constant: 40),
-            footerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            footerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            footerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40)
+            footerStackView.topAnchor.constraint(greaterThanOrEqualTo: cardView.bottomAnchor, constant: 25),
+            footerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            footerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            footerStackView.heightAnchor.constraint(equalToConstant: footerViewHeight),
+            footerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            
+            // Bottom Padding
+            bottomPaddingView.topAnchor.constraint(equalTo: footerStackView.bottomAnchor, constant: 0),
+            bottomPaddingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            bottomPaddingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            bottomPaddingView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
     
