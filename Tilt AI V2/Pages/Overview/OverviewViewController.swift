@@ -4,17 +4,16 @@
 //
 //  Created by Steve on 8/21/25.
 //
+
 import UIKit
 import Foundation
 
 // MARK: - Results View Controller
-class ResultsViewController: UIViewController {
+class OverviewViewController: UIViewController {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private let headerView = UIView()
-    private let backButton = UIButton(type: .system)
-    private let titleLabel = UILabel()
+    private var headerView: TiltAIHeaderView!
     private let cardView = UIView()
     private let footerStackView = UIStackView()
     
@@ -46,44 +45,21 @@ class ResultsViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = UIColor.systemGroupedBackground
         
+        // Hide the navigation bar since we're using our custom header
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        // Add the custom header using the extension
+        headerView = addTiltAIHeader(title: "Tilt AI")
+        headerView.delegate = self
+        
         // Configure scroll view
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        setupHeader()
         setupCard()
         setupFooter()
-    }
-    
-    private func setupHeader() {
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Back button
-        backButton.setTitle("← Back", for: .normal)
-        backButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        backButton.setTitleColor(.systemBlue, for: .normal)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        
-        // Title
-        titleLabel.text = "Tilt AI"
-        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .medium)
-        titleLabel.textColor = .black
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        headerView.addSubview(backButton)
-        headerView.addSubview(titleLabel)
-        contentView.addSubview(headerView)
-        
-        NSLayoutConstraint.activate([
-            backButton.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            backButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            
-            titleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-        ])
     }
     
     private func setupCard() {
@@ -138,8 +114,8 @@ class ResultsViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Scroll view
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            // Scroll view - positioned below the header
+            scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -151,14 +127,8 @@ class ResultsViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            // Header
-            headerView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10),
-            headerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            headerView.heightAnchor.constraint(equalToConstant: 44),
-            
             // Card view
-            cardView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
+            cardView.topAnchor.constraint(equalTo: contentView.topAnchor),
             cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
@@ -264,15 +234,6 @@ class ResultsViewController: UIViewController {
             
             stackView.addArrangedSubview(citationsLabel)
             stackView.addArrangedSubview(financialButton)
-    
-//            let citationStackView = UIStackView()
-//            citationStackView.axis = .vertical
-//            citationStackView.spacing = 20
-//            citationStackView.translatesAutoresizingMaskIntoConstraints = false
-//            citationStackView.alignment = .center
-//            citationStackView.addArrangedSubview(citationsLabel)
-//            stackView.addArrangedSubview(citationStackView)
-    
         }
         
         cardView.addSubview(stackView)
@@ -285,10 +246,6 @@ class ResultsViewController: UIViewController {
         ])
     }
     
-    @objc private func backButtonTapped() {
-        coordinator?.navigateToRoot()
-    }
-    
     @objc private func financialContributionsButtonTapped() {
         // Fetch financial contributions when user taps the link
         let financialViewModel = FinancialContributionsViewModel()
@@ -299,5 +256,12 @@ class ResultsViewController: UIViewController {
         
         // Trigger the data fetch
         financialViewModel.fetchFinancialContributions(for: organizationName)
+    }
+}
+
+// MARK: - TiltAIHeaderViewDelegate
+extension OverviewViewController: TiltAIHeaderViewDelegate {
+    func headerViewBackButtonTapped(_ headerView: TiltAIHeaderView) {
+        coordinator?.navigateToRoot()
     }
 }

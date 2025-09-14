@@ -43,7 +43,7 @@ class AppCoordinator: Coordinator {
     }
     
     func showResultsScreen(with analysis: OrganizationAnalysis, organizationName: String) {
-        let resultsVC = ResultsViewController()
+        let resultsVC = OverviewViewController()
         resultsVC.configure(with: analysis, organizationName: organizationName, coordinator: self)
         // Replace loading screen with results view controller.
         // If we pop the loadinf screen and then add the results vc it creates weird UI jank.
