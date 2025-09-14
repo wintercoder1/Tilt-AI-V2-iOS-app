@@ -14,7 +14,7 @@ class OverviewViewController: UIViewController {
     private let contentView = UIView()
     private var headerView: TiltAIHeaderView!
     private let cardView = UIView()
-    private let footerStackView = UIStackView()
+    private var footerStackView = UIStackView()
     private let bottomPaddingView = UIView()
     
     private var analysis: OrganizationAnalysis?
@@ -59,6 +59,7 @@ class OverviewViewController: UIViewController {
         scrollView.addSubview(contentView)
         
         setupCard()
+//        setupFooter()
         setupFooterOld()
     }
     
@@ -73,6 +74,10 @@ class OverviewViewController: UIViewController {
         
         contentView.addSubview(cardView)
     }
+    
+//    private func setupFooter() {
+//        addTiltAIFooterStackView(to: contentView, below: cardView.bottomAnchor, topConstant: 25)
+//    }
     
     private func setupFooterOld() {
         footerStackView.axis = .vertical
