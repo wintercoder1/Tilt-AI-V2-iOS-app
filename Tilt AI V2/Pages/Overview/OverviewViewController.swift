@@ -28,6 +28,7 @@ class OverviewViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     func configure(with analysis: OrganizationAnalysis, organizationName: String, coordinator: AppCoordinator) {
@@ -41,10 +42,22 @@ class OverviewViewController: BaseViewController {
         }
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        updateContent()
+//        checkIfAlreadySaved()
+//    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateContent()
-        checkIfAlreadySaved()
+        
+        // Only check if saved when not configured with persisted data
+        // (to avoid overriding the isSaved = true from configureWithPersistedData)
+        if !isSaved {
+            checkIfAlreadySaved()
+        } else {
+            updateSaveButtonAppearance()
+        }
     }
     
     private func setupUI() {
@@ -411,7 +424,21 @@ class OverviewViewController: BaseViewController {
 //            do { try context.save() } catch { print("Query answer save error:", error) }
 //        }
 //    }
-
+    
+    // Add this method to your OverviewViewController class
+    func configureWithPersistedData(analysis: OrganizationAnalysis, organizationName: String, coordinator: AppCoordinator) {
+        self.analysis = analysis
+        self.organizationName = organizationName
+        self.coordinator = coordinator
+        
+        // Mark as already saved since this is persisted data
+        self.isSaved = true
+        
+        if isViewLoaded {
+            updateContent()
+            updateSaveButtonAppearance()
+        }
+    }
 }
 
 // MARK: - TiltAIHeaderViewDelegate
@@ -420,3 +447,11 @@ extension OverviewViewController: TiltAIHeaderViewDelegate {
         coordinator?.navigateToRoot()
     }
 }
+
+//
+extension OverviewViewController:UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+

@@ -41,9 +41,9 @@ class SearchViewController: BaseViewController {
 //        fetchPersistedQueryAnswerObjects()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        fetchPersistedQueryAnswerObjects()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        fetchPersistedQueryAnswerObjects()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         fetchPersistedQueryAnswerObjects()
@@ -427,7 +427,6 @@ class SearchViewController: BaseViewController {
 //            }
             // Debug print
             print("First Persisted query answers:")
-            print(self.persistedQueryAnswers[0])
             for oneQueryAnswerObject in self.persistedQueryAnswers {
 //                print("oneQueryAnswerObject: \(oneQueryAnswerObject)")
                 print(oneQueryAnswerObject.topic ?? "No topic")
@@ -436,6 +435,22 @@ class SearchViewController: BaseViewController {
             // TODO: Set persistedQueryAnswers to saved queries table view (the one that comes up in the hamburger menu)
         } catch {
             print("Fetch error:", error)
+        }
+    }
+    
+    private func removePersistedQueryAnswer(context: NSManagedObjectContext, organizationName: String) {
+        let request: NSFetchRequest<QueryAnswerObject> = QueryAnswerObject.fetchRequest()
+        request.predicate = NSPredicate(format: "topic == %@", organizationName)
+        
+        do {
+            let results = try context.fetch(request)
+            for result in results {
+                context.delete(result)
+            }
+            try context.save()
+            print("Analysis removed from saved items")
+        } catch {
+            print("Error removing saved analysis: \(error)")
         }
     }
 }
@@ -473,27 +488,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == sidePanelTableView {
-            tableView.deselectRow(at: indexPath, animated: true)
-            let queryAnswer = persistedQueryAnswers[indexPath.row]
-            
-            // Handle selection of persisted query - you can navigate to detail view or populate search field
-            if let topic = queryAnswer.topic {
-                searchTextField.text = topic
-                updateContinueButton()
-                hideSidePanel()
-            }
-        } else {
-            DispatchQueue.main.async { [self] in
-                tableView.deselectRow(at: indexPath, animated: true)
-                self.searchTextField.text = self.filteredCompanies[indexPath.row]
-                self.updateContinueButton()
-                self.hideDropdown()
-                self.searchTextField.resignFirstResponder()
-            }
-        }
-    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == sidePanelTableView {
@@ -542,21 +537,69 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         return nil
     }
     
-    private func removePersistedQueryAnswer(context: NSManagedObjectContext, organizationName: String) {
-        let request: NSFetchRequest<QueryAnswerObject> = QueryAnswerObject.fetchRequest()
-        request.predicate = NSPredicate(format: "topic == %@", organizationName)
-        
-        do {
-            let results = try context.fetch(request)
-            for result in results {
-                context.delete(result)
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if tableView == sidePanelTableView {
+//            tableView.deselectRow(at: indexPath, animated: true)
+//            let queryAnswer = persistedQueryAnswers[indexPath.row]
+//
+//            // Handle selection of persisted query - you can navigate to detail view or populate search field
+//            if let topic = queryAnswer.topic {
+//                searchTextField.text = topic
+//                updateContinueButton()
+//                hideSidePanel()
+//            }
+//        } else {
+//            DispatchQueue.main.async { [self] in
+//                tableView.deselectRow(at: indexPath, animated: true)
+//                self.searchTextField.text = self.filteredCompanies[indexPath.row]
+//                self.updateContinueButton()
+//                self.hideDropdown()
+//                self.searchTextField.resignFirstResponder()
+//            }
+//        }
+//    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == sidePanelTableView {
+            tableView.deselectRow(at: indexPath, animated: true)
+            let queryAnswer = persistedQueryAnswers[indexPath.row]
+            
+            print("Selected persisted query: \(queryAnswer)")
+            // Navigate to overview page with persisted data
+            if let topic = queryAnswer.topic {
+                // Create OrganizationAnalysis from persisted data
+                let analysis = OrganizationAnalysis(
+                    lean: queryAnswer.lean ?? "Unknown",
+                    rating: Int(queryAnswer.rating),
+                    description: queryAnswer.context ?? "No description available",
+                    hasFinancialContributions: queryAnswer.created_with_financial_contributions_info,
+                    financialContributionsText: queryAnswer.context
+                )
+                
+                // Navigate to overview page using your coordinator/navigation method
+                // You'll need to replace this with your actual navigation method
+                viewModel.navigateToOverviewWithPersistedData(
+                    analysis: analysis,
+                    organizationName: topic,
+                    from: self
+                )
+                
+                hideSidePanel()
+            } else { // Debug only.
+                print("Not found with core data oh nooo...")
             }
-            try context.save()
-            print("Analysis removed from saved items")
-        } catch {
-            print("Error removing saved analysis: \(error)")
+        } else {
+            DispatchQueue.main.async { [self] in
+                tableView.deselectRow(at: indexPath, animated: true)
+                self.searchTextField.text = self.filteredCompanies[indexPath.row]
+                self.updateContinueButton()
+                self.hideDropdown()
+                self.searchTextField.resignFirstResponder()
+            }
         }
     }
+    
+    
 }
 
 extension SearchViewController: UIGestureRecognizerDelegate {

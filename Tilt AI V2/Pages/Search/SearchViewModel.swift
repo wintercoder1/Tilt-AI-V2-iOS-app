@@ -110,4 +110,22 @@ class SearchViewModel {
             }
         }
     }
+    
+    // Add this method to your SearchViewModel class
+    func navigateToOverviewWithPersistedData(analysis: OrganizationAnalysis, organizationName: String, from viewController: UIViewController) {
+        // Assuming you have a coordinator pattern similar to OverviewViewController
+        // You'll need to adapt this to your actual navigation setup
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil) // Adjust storyboard name as needed
+        let overviewVC = OverviewViewController()
+        
+        if let coordinator = self.coordinator {
+            // Configure with persisted data instead of making network request
+            overviewVC.configureWithPersistedData(analysis: analysis,
+                                                  organizationName: organizationName,
+                                                  coordinator: coordinator)
+            
+            viewController.navigationController?.pushViewController(overviewVC, animated: true)
+        }
+    }
 }
