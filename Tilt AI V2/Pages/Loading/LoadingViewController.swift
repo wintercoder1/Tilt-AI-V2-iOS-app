@@ -47,15 +47,16 @@ class LoadingViewController: BaseViewController {
         
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60),
+            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             
             spinnerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            spinnerView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            spinnerView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 25),
             spinnerView.widthAnchor.constraint(equalToConstant: 60),
             spinnerView.heightAnchor.constraint(equalToConstant: 60),
             
             subtitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            subtitleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60)
+            subtitleLabel.topAnchor.constraint(equalTo: spinnerView.bottomAnchor, constant: 28)
+//            subtitleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
         ])
     }
     
