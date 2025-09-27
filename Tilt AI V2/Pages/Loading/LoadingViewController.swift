@@ -8,7 +8,7 @@ import UIKit
 import Foundation
 
 // MARK: - Loading View Controller
-class LoadingViewController: UIViewController {
+class LoadingViewController: BaseViewController {
     
     private let titleLabel = UILabel()
     private let spinnerView = UIView()

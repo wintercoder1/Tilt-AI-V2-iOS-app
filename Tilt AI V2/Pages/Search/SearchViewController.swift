@@ -655,7 +655,8 @@ class QueryHistoryCell: UITableViewCell {
         NSLayoutConstraint.activate([
             topicLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 32),
             topicLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
-            topicLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -8),
+//            topicLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -8),
+            topicLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: 0),
             
             dateLabel.topAnchor.constraint(equalTo: topicLabel.bottomAnchor, constant: 4),
             dateLabel.leadingAnchor.constraint(equalTo: topicLabel.leadingAnchor),
