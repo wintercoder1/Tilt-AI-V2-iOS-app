@@ -6,9 +6,10 @@
 //
 import UIKit
 import Foundation
+import CoreData
 
 // MARK: - Results View Controller
-class OverviewViewController: UIViewController {
+class OverviewViewController: BaseViewController {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -16,10 +17,12 @@ class OverviewViewController: UIViewController {
     private let cardView = UIView()
     private var footerStackView = UIStackView()
     private let bottomPaddingView = UIView()
+    private var saveButton: UIButton!
     
     private var analysis: OrganizationAnalysis?
     private var organizationName: String = ""
     private weak var coordinator: AppCoordinator?
+    private var isSaved: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +37,14 @@ class OverviewViewController: UIViewController {
         
         if isViewLoaded {
             updateContent()
+            checkIfAlreadySaved()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateContent()
+        checkIfAlreadySaved()
     }
     
     private func setupUI() {
@@ -59,6 +64,7 @@ class OverviewViewController: UIViewController {
         scrollView.addSubview(contentView)
         
         setupCard()
+        setupSaveButton()
 //        setupFooter()
         setupFooterOld()
     }
@@ -75,6 +81,35 @@ class OverviewViewController: UIViewController {
         contentView.addSubview(cardView)
     }
     
+    private func setupSaveButton() {
+        saveButton = UIButton(type: .system)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        
+        // Initial state - outline heart
+        updateSaveButtonAppearance()
+        
+        view.addSubview(saveButton)
+    }
+    
+    private func updateSaveButtonAppearance() {
+        let heartImageName = isSaved ? "heart.fill" : "heart"
+        let heartImage = UIImage(systemName: heartImageName)
+        saveButton.setImage(heartImage, for: .normal)
+        saveButton.tintColor = isSaved ? .black : .systemGray
+        
+        // Add a subtle background for better visibility
+        saveButton.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        saveButton.layer.cornerRadius = 20
+        saveButton.layer.shadowColor = UIColor.black.cgColor
+        saveButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        saveButton.layer.shadowRadius = 4
+        saveButton.layer.shadowOpacity = 0.1
+        
+        // Add some padding around the icon
+        saveButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    }
+    
 //    private func setupFooter() {
 //        addTiltAIFooterStackView(to: contentView, below: cardView.bottomAnchor, topConstant: 25)
 //    }
@@ -87,8 +122,7 @@ class OverviewViewController: UIViewController {
         footerStackView.backgroundColor = .white
         bottomPaddingView.translatesAutoresizingMaskIntoConstraints = false
         bottomPaddingView.backgroundColor = .white
-//        bottomPaddingView.backgroundColor = .cyan
-        
+ 
         let copyrightLabel = UILabel()
         copyrightLabel.text = "  © 2025 Correlation LLC. All rights reserved.  "
         copyrightLabel.font = UIFont.systemFont(ofSize: 14)
@@ -102,10 +136,6 @@ class OverviewViewController: UIViewController {
         dataSourceLabel.textAlignment = .center
         dataSourceLabel.numberOfLines = 0
         
-//        let emailImageView = UIImageView(image: UIImage(systemName: "envelope"))
-//        emailImageView.tintColor = .systemGray
-//        emailImageView.contentMode = .scaleAspectFit
-        
         let disclaimerLabel = UILabel()
         disclaimerLabel.text = "  This website provides information derived from publicly available data. Tilt AI and Correlation LLC do not endorse any political candidates or organizations mentioned.  "
         disclaimerLabel.font = UIFont.systemFont(ofSize: 12)
@@ -115,12 +145,10 @@ class OverviewViewController: UIViewController {
         
         footerStackView.addArrangedSubview(copyrightLabel)
         footerStackView.addArrangedSubview(dataSourceLabel)
-//        footerStackView.addArrangedSubview(emailImageView)
         footerStackView.addArrangedSubview(disclaimerLabel)
         
         contentView.addSubview(footerStackView)
         contentView.addSubview(bottomPaddingView)
-        
     }
     
     private func setupConstraints() {
@@ -144,6 +172,12 @@ class OverviewViewController: UIViewController {
             cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
+            // Save button - positioned in bottom-right corner of the card
+            saveButton.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -15),
+            saveButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -15),
+            saveButton.widthAnchor.constraint(equalToConstant: 40),
+            saveButton.heightAnchor.constraint(equalToConstant: 40),
+            
             // Footer
             footerStackView.topAnchor.constraint(greaterThanOrEqualTo: cardView.bottomAnchor, constant: 25),
             footerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
@@ -165,7 +199,11 @@ class OverviewViewController: UIViewController {
         print("Analysis: \(analysis)")
         
         // Clear existing content in card
-        cardView.subviews.forEach { $0.removeFromSuperview() }
+        cardView.subviews.forEach { subview in
+            if subview != saveButton {
+                subview.removeFromSuperview()
+            }
+        }
         
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -276,6 +314,104 @@ class OverviewViewController: UIViewController {
         // Trigger the data fetch
         financialViewModel.fetchFinancialContributions(for: organizationName)
     }
+    
+    private func checkIfAlreadySaved() {
+        guard !organizationName.isEmpty else { return }
+        
+        let persistence = CoreDataPersistence()
+        let context = persistence.container.viewContext
+        
+        let request: NSFetchRequest<QueryAnswerObject> = QueryAnswerObject.fetchRequest()
+        request.predicate = NSPredicate(format: "topic == %@", organizationName)
+        request.fetchLimit = 1
+        
+        do {
+            let results = try context.fetch(request)
+            isSaved = !results.isEmpty
+            updateSaveButtonAppearance()
+        } catch {
+            print("Error checking if answer is saved: \(error)")
+            isSaved = false
+            updateSaveButtonAppearance()
+        }
+    }
+    
+    
+    /**
+        Persistence Methods.
+    */
+    @objc private func saveButtonTapped() {
+        guard let analysis = analysis, !organizationName.isEmpty else { return }
+        
+        let persistence = CoreDataPersistence()
+        let context = persistence.container.viewContext
+        
+        if isSaved {
+            // Remove from saved
+            removePersistedQueryAnswer(context: context, organizationName: organizationName)
+        } else {
+            // Save the analysis
+            addPersistedQueryAnswer(context: context, analysis: analysis)
+        }
+        
+        // Update UI immediately for unsave operation
+        if !isSaved {
+            updateSaveButtonAppearance()
+        }
+    }
+    
+    private func addPersistedQueryAnswer(context: NSManagedObjectContext, analysis: OrganizationAnalysis) {
+        context.perform { [weak self] in
+            guard let self = self else { return }
+            
+            let qa = QueryAnswerObject(context: context)
+            qa.date_persisted = Date()
+            qa.topic = self.organizationName
+            qa.lean = analysis.lean
+            qa.rating = Int16(analysis.rating)
+            qa.context = analysis.description
+            qa.created_with_financial_contributions_info = analysis.hasFinancialContributions
+            
+            do {
+                try context.save()
+                DispatchQueue.main.async {
+                    self.isSaved = true
+                    self.updateSaveButtonAppearance()
+                    print("Analysis saved successfully")
+                }
+            } catch {
+                print("Query answer save error:", error)
+            }
+        }
+    }
+    
+    private func removePersistedQueryAnswer(context: NSManagedObjectContext, organizationName: String) {
+        let request: NSFetchRequest<QueryAnswerObject> = QueryAnswerObject.fetchRequest()
+        request.predicate = NSPredicate(format: "topic == %@", organizationName)
+        
+        do {
+            let results = try context.fetch(request)
+            for result in results {
+                context.delete(result)
+            }
+            try context.save()
+            isSaved = false
+            print("Analysis removed from saved items")
+        } catch {
+            print("Error removing saved analysis: \(error)")
+        }
+    }
+    
+//    private func addPersistedQueryAnswer() {
+//        let persistence = CoreDataPersistence()
+//        let context = persistence.container.viewContext
+//        context.perform { [context] in
+//            let qa = QueryAnswerObject(context: context)
+//            qa.date_persisted = Date()
+//            do { try context.save() } catch { print("Query answer save error:", error) }
+//        }
+//    }
+
 }
 
 // MARK: - TiltAIHeaderViewDelegate

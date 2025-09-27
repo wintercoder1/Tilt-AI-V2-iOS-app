@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 
 // MARK: - Financial Contributions View Controller
-class FinancialContributionsViewController: UIViewController {
+class FinancialContributionsViewController: BaseViewController {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
