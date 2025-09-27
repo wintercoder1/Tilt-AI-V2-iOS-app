@@ -416,23 +416,12 @@ class SearchViewController: BaseViewController {
         
         do {
             self.persistedQueryAnswers = try context.fetch(req)
-//            DispatchQueue.main.async {
-//                self.sidePanelTableView.reloadData()
-////                self.sidePanelTableView.da
+//            // Debug print
+//            print("First Persisted query answers:")
+//            for oneQueryAnswerObject in self.persistedQueryAnswers {
+//                print(oneQueryAnswerObject.topic ?? "No topic")
 //            }
-//            if self.sidePanelTableView.dataSource != nil {
-//                DispatchQueue.main.async {
-//                    self.sidePanelTableView.reloadData()
-//                }
-//            }
-            // Debug print
-            print("First Persisted query answers:")
-            for oneQueryAnswerObject in self.persistedQueryAnswers {
-//                print("oneQueryAnswerObject: \(oneQueryAnswerObject)")
-                print(oneQueryAnswerObject.topic ?? "No topic")
-            }
-            print()
-            // TODO: Set persistedQueryAnswers to saved queries table view (the one that comes up in the hamburger menu)
+//            print()
         } catch {
             print("Fetch error:", error)
         }
@@ -472,10 +461,20 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == sidePanelTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "QueryHistoryCell", for: indexPath) as! QueryHistoryCell
-            let queryAnswer = persistedQueryAnswers[indexPath.row]
-//            print("In tableview cellForRow")
-//            print(queryAnswer)
-            cell.configure(with: queryAnswer)
+            // The correct way?
+            do {
+                let (objectID, context) = objectIDForIndexPathRow(indexPathRow: indexPath.row)
+                let freshObject: QueryAnswerObject = try context.existingObject(with: objectID) as! QueryAnswerObject
+                print("Fresh object topic: \(freshObject.topic ?? "nil")")
+                if freshObject.topic != nil {
+                    cell.configure(with: freshObject)
+                }
+            } catch { // If that won't work fall back to something else idk.
+                // This pretty much won't ever actually get called.
+                print("Error getting fresh object: \(error)")
+                let queryAnswer: QueryAnswerObject = persistedQueryAnswers[indexPath.row]
+                cell.configure(with: queryAnswer)
+            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CompanyCell", for: indexPath)
@@ -487,7 +486,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
     }
-    
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -506,14 +504,12 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if tableView == sidePanelTableView && editingStyle == .delete {
+
             // Get a fresh copy of the object
-            let persistence = CoreDataPersistence()
-            let context = persistence.container.viewContext
-            
-            let objectID = self.persistedQueryAnswers[indexPath.row].objectID
+            let (objectID, context) = objectIDForIndexPathRow(indexPathRow: indexPath.row)
             
             do {
-                let freshObject = try context.existingObject(with: objectID) as! QueryAnswerObject
+                let freshObject: QueryAnswerObject = try context.existingObject(with: objectID) as! QueryAnswerObject
                 print("Fresh object topic: \(freshObject.topic ?? "nil")")
                 
                 // Now proceed with deletion using the fresh object
@@ -536,58 +532,42 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return nil
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if tableView == sidePanelTableView {
-//            tableView.deselectRow(at: indexPath, animated: true)
-//            let queryAnswer = persistedQueryAnswers[indexPath.row]
-//
-//            // Handle selection of persisted query - you can navigate to detail view or populate search field
-//            if let topic = queryAnswer.topic {
-//                searchTextField.text = topic
-//                updateContinueButton()
-//                hideSidePanel()
-//            }
-//        } else {
-//            DispatchQueue.main.async { [self] in
-//                tableView.deselectRow(at: indexPath, animated: true)
-//                self.searchTextField.text = self.filteredCompanies[indexPath.row]
-//                self.updateContinueButton()
-//                self.hideDropdown()
-//                self.searchTextField.resignFirstResponder()
-//            }
-//        }
-//    }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if tableView == sidePanelTableView {
-            tableView.deselectRow(at: indexPath, animated: true)
-            let queryAnswer = persistedQueryAnswers[indexPath.row]
             
-            print("Selected persisted query: \(queryAnswer)")
-            // Navigate to overview page with persisted data
-            if let topic = queryAnswer.topic {
-                // Create OrganizationAnalysis from persisted data
-                let analysis = OrganizationAnalysis(
-                    lean: queryAnswer.lean ?? "Unknown",
-                    rating: Int(queryAnswer.rating),
-                    description: queryAnswer.context ?? "No description available",
-                    hasFinancialContributions: queryAnswer.created_with_financial_contributions_info,
-                    financialContributionsText: queryAnswer.context
-                )
+            // Get a fresh copy of the object
+            let (objectID, context) = objectIDForIndexPathRow(indexPathRow: indexPath.row)
+            
+            do {
+                let freshObject = try context.existingObject(with: objectID) as! QueryAnswerObject
+                print("Fresh object topic: \(freshObject.topic ?? "nil")")
+                if let topic = freshObject.topic {
+                    // Create OrganizationAnalysis from persisted data
+                    let analysis = OrganizationAnalysis(
+                        lean: freshObject.lean ?? "Unknown",
+                        rating: Int(freshObject.rating),
+                        description: freshObject.context ?? "No description available",
+                        hasFinancialContributions: freshObject.created_with_financial_contributions_info,
+                        financialContributionsText: freshObject.context
+                    )
+                    
+                    // Navigate to overview page using your coordinator/navigation method
+                    // You'll need to replace this with your actual navigation method
+                    viewModel.navigateToOverviewWithPersistedData(
+                        analysis: analysis,
+                        organizationName: topic,
+                        from: self
+                    )
+                    
+                    hideSidePanel()
+                }
                 
-                // Navigate to overview page using your coordinator/navigation method
-                // You'll need to replace this with your actual navigation method
-                viewModel.navigateToOverviewWithPersistedData(
-                    analysis: analysis,
-                    organizationName: topic,
-                    from: self
-                )
-                
-                hideSidePanel()
-            } else { // Debug only.
-                print("Not found with core data oh nooo...")
+            } catch {
+                print("Error getting fresh object: \(error)")
             }
+            
         } else {
             DispatchQueue.main.async { [self] in
                 tableView.deselectRow(at: indexPath, animated: true)
@@ -599,6 +579,15 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    
+    func objectIDForIndexPathRow(indexPathRow: Int) -> (NSManagedObjectID, NSManagedObjectContext) {
+        // Get a fresh copy of the object
+        let persistence = CoreDataPersistence()
+        let context = persistence.container.viewContext
+        
+        let objectID = self.persistedQueryAnswers[indexPathRow].objectID
+        return (objectID, context)
+    }
     
 }
 

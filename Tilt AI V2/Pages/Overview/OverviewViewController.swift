@@ -415,16 +415,6 @@ class OverviewViewController: BaseViewController {
         }
     }
     
-//    private func addPersistedQueryAnswer() {
-//        let persistence = CoreDataPersistence()
-//        let context = persistence.container.viewContext
-//        context.perform { [context] in
-//            let qa = QueryAnswerObject(context: context)
-//            qa.date_persisted = Date()
-//            do { try context.save() } catch { print("Query answer save error:", error) }
-//        }
-//    }
-    
     // Add this method to your OverviewViewController class
     func configureWithPersistedData(analysis: OrganizationAnalysis, organizationName: String, coordinator: AppCoordinator) {
         self.analysis = analysis
