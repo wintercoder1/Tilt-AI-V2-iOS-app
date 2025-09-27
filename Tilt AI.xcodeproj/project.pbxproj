@@ -199,7 +199,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AAFDD2B52E57B7F90005D5DA /* Build configuration list for PBXProject "Tilt AI V2" */;
+			buildConfigurationList = AAFDD2B52E57B7F90005D5DA /* Build configuration list for PBXProject "Tilt AI" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -539,7 +539,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AAFDD2B52E57B7F90005D5DA /* Build configuration list for PBXProject "Tilt AI V2" */ = {
+		AAFDD2B52E57B7F90005D5DA /* Build configuration list for PBXProject "Tilt AI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2E62E57B7FB0005D5DA /* Debug */,
