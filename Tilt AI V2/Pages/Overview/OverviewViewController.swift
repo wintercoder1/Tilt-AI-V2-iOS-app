@@ -41,12 +41,7 @@ class OverviewViewController: BaseViewController {
             checkIfAlreadySaved()
         }
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        updateContent()
-//        checkIfAlreadySaved()
-//    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateContent()
@@ -168,13 +163,13 @@ class OverviewViewController: BaseViewController {
         let footerViewHeight: CGFloat = 140.0
         NSLayoutConstraint.activate([
             // Scroll view - positioned below the header
-            scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
+            scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             // Content view
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
@@ -202,7 +197,7 @@ class OverviewViewController: BaseViewController {
             bottomPaddingView.topAnchor.constraint(equalTo: footerStackView.bottomAnchor, constant: 0),
             bottomPaddingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
             bottomPaddingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
-            bottomPaddingView.heightAnchor.constraint(equalToConstant: 200)
+            bottomPaddingView.heightAnchor.constraint(equalToConstant: 250)
         ])
     }
     

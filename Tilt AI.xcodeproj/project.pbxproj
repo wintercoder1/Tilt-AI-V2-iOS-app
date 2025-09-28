@@ -24,18 +24,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AAFDD2BA2E57B7F90005D5DA /* Tilt AI V2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tilt AI V2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAFDD2D02E57B7FB0005D5DA /* Tilt AI V2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tilt AI V2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAFDD2DA2E57B7FB0005D5DA /* Tilt AI V2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tilt AI V2UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2BA2E57B7F90005D5DA /* Tilt AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tilt AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2D02E57B7FB0005D5DA /* Tilt AI Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tilt AI Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2DA2E57B7FB0005D5DA /* Tilt AI UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tilt AI UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AAFDD2E22E57B7FB0005D5DA /* Exceptions for "Tilt AI V2" folder in "Tilt AI V2" target */ = {
+		AAFDD2E22E57B7FB0005D5DA /* Exceptions for "Tilt AI V2" folder in "Tilt AI" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI V2 */;
+			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -43,7 +43,7 @@
 		AAFDD2BC2E57B7F90005D5DA /* Tilt AI V2 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				AAFDD2E22E57B7FB0005D5DA /* Exceptions for "Tilt AI V2" folder in "Tilt AI V2" target */,
+				AAFDD2E22E57B7FB0005D5DA /* Exceptions for "Tilt AI V2" folder in "Tilt AI" target */,
 			);
 			path = "Tilt AI V2";
 			sourceTree = "<group>";
@@ -98,9 +98,9 @@
 		AAFDD2BB2E57B7F90005D5DA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AAFDD2BA2E57B7F90005D5DA /* Tilt AI V2.app */,
-				AAFDD2D02E57B7FB0005D5DA /* Tilt AI V2Tests.xctest */,
-				AAFDD2DA2E57B7FB0005D5DA /* Tilt AI V2UITests.xctest */,
+				AAFDD2BA2E57B7F90005D5DA /* Tilt AI.app */,
+				AAFDD2D02E57B7FB0005D5DA /* Tilt AI Tests.xctest */,
+				AAFDD2DA2E57B7FB0005D5DA /* Tilt AI UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,9 +108,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AAFDD2B92E57B7F90005D5DA /* Tilt AI V2 */ = {
+		AAFDD2B92E57B7F90005D5DA /* Tilt AI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI V2" */;
+			buildConfigurationList = AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI" */;
 			buildPhases = (
 				AAFDD2B62E57B7F90005D5DA /* Sources */,
 				AAFDD2B72E57B7F90005D5DA /* Frameworks */,
@@ -123,16 +123,16 @@
 			fileSystemSynchronizedGroups = (
 				AAFDD2BC2E57B7F90005D5DA /* Tilt AI V2 */,
 			);
-			name = "Tilt AI V2";
+			name = "Tilt AI";
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2";
-			productReference = AAFDD2BA2E57B7F90005D5DA /* Tilt AI V2.app */;
+			productReference = AAFDD2BA2E57B7F90005D5DA /* Tilt AI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AAFDD2CF2E57B7FB0005D5DA /* Tilt AI V2Tests */ = {
+		AAFDD2CF2E57B7FB0005D5DA /* Tilt AI Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI V2Tests" */;
+			buildConfigurationList = AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI Tests" */;
 			buildPhases = (
 				AAFDD2CC2E57B7FB0005D5DA /* Sources */,
 				AAFDD2CD2E57B7FB0005D5DA /* Frameworks */,
@@ -146,16 +146,16 @@
 			fileSystemSynchronizedGroups = (
 				AAFDD2D32E57B7FB0005D5DA /* Tilt AI V2Tests */,
 			);
-			name = "Tilt AI V2Tests";
+			name = "Tilt AI Tests";
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2Tests";
-			productReference = AAFDD2D02E57B7FB0005D5DA /* Tilt AI V2Tests.xctest */;
+			productReference = AAFDD2D02E57B7FB0005D5DA /* Tilt AI Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AAFDD2D92E57B7FB0005D5DA /* Tilt AI V2UITests */ = {
+		AAFDD2D92E57B7FB0005D5DA /* Tilt AI UITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI V2UITests" */;
+			buildConfigurationList = AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI UITests" */;
 			buildPhases = (
 				AAFDD2D62E57B7FB0005D5DA /* Sources */,
 				AAFDD2D72E57B7FB0005D5DA /* Frameworks */,
@@ -169,11 +169,11 @@
 			fileSystemSynchronizedGroups = (
 				AAFDD2DD2E57B7FB0005D5DA /* Tilt AI V2UITests */,
 			);
-			name = "Tilt AI V2UITests";
+			name = "Tilt AI UITests";
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2UITests";
-			productReference = AAFDD2DA2E57B7FB0005D5DA /* Tilt AI V2UITests.xctest */;
+			productReference = AAFDD2DA2E57B7FB0005D5DA /* Tilt AI UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -213,9 +213,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AAFDD2B92E57B7F90005D5DA /* Tilt AI V2 */,
-				AAFDD2CF2E57B7FB0005D5DA /* Tilt AI V2Tests */,
-				AAFDD2D92E57B7FB0005D5DA /* Tilt AI V2UITests */,
+				AAFDD2B92E57B7F90005D5DA /* Tilt AI */,
+				AAFDD2CF2E57B7FB0005D5DA /* Tilt AI Tests */,
+				AAFDD2D92E57B7FB0005D5DA /* Tilt AI UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -271,12 +271,12 @@
 /* Begin PBXTargetDependency section */
 		AAFDD2D22E57B7FB0005D5DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI V2 */;
+			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI */;
 			targetProxy = AAFDD2D12E57B7FB0005D5DA /* PBXContainerItemProxy */;
 		};
 		AAFDD2DC2E57B7FB0005D5DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI V2 */;
+			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI */;
 			targetProxy = AAFDD2DB2E57B7FB0005D5DA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -307,7 +307,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.Tilt-AI-V2";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.incredible-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -322,9 +322,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = EPDF3ATTJ8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tilt AI V2/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Tilt AI";
@@ -340,7 +341,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.Tilt-AI";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.incredible-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -477,7 +478,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.Tilt-AI-V2Tests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.incredible-appTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -495,7 +496,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.Tilt-AI-V2Tests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.incredible-appTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -511,7 +512,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.Tilt-AI-V2UITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.incredible-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -527,7 +528,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.Tilt-AI-V2UITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.correlation.incredible-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -548,7 +549,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI V2" */ = {
+		AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2E42E57B7FB0005D5DA /* Debug */,
@@ -557,7 +558,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI V2Tests" */ = {
+		AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2E92E57B7FB0005D5DA /* Debug */,
@@ -566,7 +567,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI V2UITests" */ = {
+		AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2EC2E57B7FB0005D5DA /* Debug */,
