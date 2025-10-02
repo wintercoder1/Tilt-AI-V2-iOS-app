@@ -117,9 +117,9 @@ extension UIViewController {
     func addTiltAIFooterStackView(to containerView: UIView,
                             below topAnchor: NSLayoutYAxisAnchor,
                             topConstant: CGFloat = 100,
-                            bottomConstant: CGFloat = -20,
+                            bottomConstant: CGFloat = -220,
                             includeBottomPadding: Bool = true,
-                            bottomPaddingHeight: CGFloat = 200) -> UIStackView {
+                            bottomPaddingHeight: CGFloat = 800) -> UIStackView {
             
         // Create footer stack view
         let footerStackView = UIStackView()

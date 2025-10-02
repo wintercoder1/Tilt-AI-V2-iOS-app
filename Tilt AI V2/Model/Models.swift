@@ -172,9 +172,9 @@ struct FinancialContributionsResponse: Codable {
     let fecFinancialContributionsSummaryText: String
     let upvoteCount: Int
     let downvoteCount: Int
-    let timeRangeOfData: String
-    let cycleEndYear: String
-    let committeeName: String
+    let timeRangeOfData: String?
+    let cycleEndYear: String?
+    let committeeName: String?
     let queryType: String
     let debug: FinancialDebugInfo
     let percentContributions: PercentContributions?

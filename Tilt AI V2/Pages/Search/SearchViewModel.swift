@@ -19,15 +19,17 @@ class SearchViewModel {
     weak var coordinator: AppCoordinator?
     private let networkManager = NetworkManager.shared
     
-    let suggestedCompanies = [
-        "Microsoft",
-        "Alpha and Omega Semiconductor Limited",
-        "Lattice Semiconductor Corporation",
-        "indie Semiconductor, Inc.",
-        "NXP Semiconductors N.V.",
-        "Microchip Technology Incorporated",
-        "Microsoft Corporation"
-    ]
+//    let suggestedCompanies = [
+//        "Microsoft",
+//        "Alpha and Omega Semiconductor Limited",
+//        "Lattice Semiconductor Corporation",
+//        "indie Semiconductor, Inc.",
+//        "NXP Semiconductors N.V.",
+//        "Microchip Technology Incorporated",
+//        "Microsoft Corporation"
+//    ]
+    
+    let suggestedCompanies = organizationSuggestions
     
     func getFilteredCompanies(for searchText: String) -> [String] {
         if searchText.isEmpty {

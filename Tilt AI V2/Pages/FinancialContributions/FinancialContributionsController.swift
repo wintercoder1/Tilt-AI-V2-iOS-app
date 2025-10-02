@@ -511,6 +511,24 @@ class FinancialContributionsViewController: BaseViewController {
         contentLabel.textColor = .black
         contentLabel.numberOfLines = 0
         
+        
+        // Financial info source disclaimer
+        let disclaimerLabel = UILabel()
+        let disclaimerText = "This financial information is based on Federal Election Commission filings from the 2024 election cycle."
+        let disclaimerTextAttributedString = NSMutableAttributedString(string: disclaimerText)
+        disclaimerLabel.attributedText = disclaimerTextAttributedString
+        disclaimerLabel.font = UIFont.systemFont(ofSize: 16)
+        disclaimerLabel.textColor = .gray
+        
+        // Put in italics.
+        let nsRange = NSRange(location: 0, length: disclaimerText.utf16.count)
+
+        // Apply italic font to the specified range
+        if let currentFont = disclaimerLabel.font {
+            let italicFont = UIFont(descriptor: currentFont.fontDescriptor.withSymbolicTraits(.traitItalic)!, size: currentFont.pointSize)
+            disclaimerTextAttributedString.addAttribute(.font, value: italicFont, range: nsRange)
+        }
+        
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(contentLabel)
         
