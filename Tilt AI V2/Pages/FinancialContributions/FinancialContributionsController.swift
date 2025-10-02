@@ -519,10 +519,9 @@ class FinancialContributionsViewController: BaseViewController {
         disclaimerLabel.attributedText = disclaimerTextAttributedString
         disclaimerLabel.font = UIFont.systemFont(ofSize: 16)
         disclaimerLabel.textColor = .gray
-        
+        disclaimerLabel.numberOfLines = 3
         // Put in italics.
         let nsRange = NSRange(location: 0, length: disclaimerText.utf16.count)
-
         // Apply italic font to the specified range
         if let currentFont = disclaimerLabel.font {
             let italicFont = UIFont(descriptor: currentFont.fontDescriptor.withSymbolicTraits(.traitItalic)!, size: currentFont.pointSize)
@@ -531,6 +530,7 @@ class FinancialContributionsViewController: BaseViewController {
         
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(contentLabel)
+        stackView.addArrangedSubview(disclaimerLabel)
         
         detailsCardView.addSubview(stackView)
         
