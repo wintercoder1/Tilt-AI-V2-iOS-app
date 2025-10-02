@@ -437,7 +437,7 @@ class SearchViewController: BaseViewController {
                 context.delete(result)
             }
             try context.save()
-            print("Analysis removed from saved items")
+//            print("Analysis removed from saved items")
         } catch {
             print("Error removing saved analysis: \(error)")
         }
@@ -465,7 +465,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             do {
                 let (objectID, context) = objectIDForIndexPathRow(indexPathRow: indexPath.row)
                 let freshObject: QueryAnswerObject = try context.existingObject(with: objectID) as! QueryAnswerObject
-                print("Fresh object topic: \(freshObject.topic ?? "nil")")
+//                print("Fresh object topic: \(freshObject.topic ?? "nil")")
                 if freshObject.topic != nil {
                     cell.configure(with: freshObject)
                 }
@@ -510,7 +510,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             
             do {
                 let freshObject: QueryAnswerObject = try context.existingObject(with: objectID) as! QueryAnswerObject
-                print("Fresh object topic: \(freshObject.topic ?? "nil")")
+//                print("Fresh object topic: \(freshObject.topic ?? "nil")")
                 
                 // Now proceed with deletion using the fresh object
                 if let topicToDelete = freshObject.topic {
@@ -542,7 +542,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             
             do {
                 let freshObject = try context.existingObject(with: objectID) as! QueryAnswerObject
-                print("Fresh object topic: \(freshObject.topic ?? "nil")")
+//                print("Fresh object topic: \(freshObject.topic ?? "nil")")
                 if let topic = freshObject.topic {
                     // Create OrganizationAnalysis from persisted data
                     let analysis = OrganizationAnalysis(

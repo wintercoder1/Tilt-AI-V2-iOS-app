@@ -204,7 +204,7 @@ class OverviewViewController: BaseViewController {
     private func updateContent() {
         guard let analysis = analysis else { return }
     
-        print("Analysis: \(analysis)")
+//        print("Analysis: \(analysis)")
         
         // Clear existing content in card
         cardView.subviews.forEach { subview in
@@ -338,7 +338,7 @@ class OverviewViewController: BaseViewController {
             isSaved = !results.isEmpty
             updateSaveButtonAppearance()
         } catch {
-            print("Error checking if answer is saved: \(error)")
+//            print("Error checking if answer is saved: \(error)")
             isSaved = false
             updateSaveButtonAppearance()
         }
@@ -385,7 +385,7 @@ class OverviewViewController: BaseViewController {
                 DispatchQueue.main.async {
                     self.isSaved = true
                     self.updateSaveButtonAppearance()
-                    print("Analysis saved successfully")
+//                    print("Analysis saved successfully")
                 }
             } catch {
                 print("Query answer save error:", error)
@@ -404,7 +404,7 @@ class OverviewViewController: BaseViewController {
             }
             try context.save()
             isSaved = false
-            print("Analysis removed from saved items")
+//            print("Analysis removed from saved items")
         } catch {
             print("Error removing saved analysis: \(error)")
         }

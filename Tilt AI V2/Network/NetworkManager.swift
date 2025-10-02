@@ -31,7 +31,7 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("Network error: \(error.localizedDescription)")
+//                print("Network error: \(error.localizedDescription)")
                 completion(.failure(.httpError(0)))
                 return
             }
@@ -53,10 +53,10 @@ class NetworkManager {
             
             do {
                 let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                print("Raw decodedResponse: \(decodedResponse)\n")
+//                print("Raw decodedResponse: \(decodedResponse)\n")
                 completion(.success(decodedResponse))
             } catch {
-                print("Decoding error: \(error)")
+//                print("Decoding error: \(error)")
                 completion(.failure(.decodingError))
             }
         }.resume()

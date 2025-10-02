@@ -230,12 +230,12 @@ class FinancialContributionsViewController: BaseViewController {
         guard let contributions = financialContributions,
               let percentContributions = contributions.percentContributions else {
             contributionsBreakdownCardView.isHidden = true
-            print("|| contributionsBreakdownCardView.isHidden = true ||")
+//            print("|| contributionsBreakdownCardView.isHidden = true ||")
             return
         }
         
         contributionsBreakdownCardView.isHidden = false
-        print("|| contributionsBreakdownCardView.isHidden NOT HIDDEN ||")
+//        print("|| contributionsBreakdownCardView.isHidden NOT HIDDEN ||")
         
         // Clear existing content
         contributionsBreakdownCardView.subviews.forEach { $0.removeFromSuperview() }
