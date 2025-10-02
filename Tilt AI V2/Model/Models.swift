@@ -166,17 +166,17 @@ struct PoliticalLeaningResponseError: Codable {
 struct FinancialContributionsResponse: Codable {
     let topic: String
     let normalizedTopicName: String
-    let timestamp: String
+    let timestamp: String?
     let committeeId: String
     let individualId: Int
     let fecFinancialContributionsSummaryText: String
-    let upvoteCount: Int
-    let downvoteCount: Int
+    let upvoteCount: Int?
+    let downvoteCount: Int?
     let timeRangeOfData: String?
     let cycleEndYear: String?
     let committeeName: String?
-    let queryType: String
-    let debug: FinancialDebugInfo
+    let queryType: String?
+    let debug: FinancialDebugInfo?
     let percentContributions: PercentContributions?
     let contributionTotals: [ContributionTotal]?
     let leadershipContributionsToCommittee: [LeadershipContribution]?

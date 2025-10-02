@@ -5830,7 +5830,7 @@ let usNASDAQTop100WithoutIncOrCompanySufffix = [
     "Baker Hughes","Broadcom","Biogen","Booking Holdings","Cadence Design Systems","Adobe","Charter Communications",
     "Copart","CoStar Group","CrowdStrike Holdings","Cintas","Cisco Systems","Comcast","Costco Wholesale","CSX",
     "Cognizant Technology Solutions","Datadog","Dexcom","Diamondback Energy","Electronic Arts","ON Semiconductor",
-    "Exelon","Trade Desk","Fastenal","GlobalFoundries","Meta Platforms","Fiserv","Fortinet","Gilead Sciences",
+    "Exelon","Trade Desk","Fastenal","GlobalFoundries", "Fiserv","Fortinet","Gilead Sciences",
     "Alphabet Class C","Alphabet Class A","Honeywell International","Intel","Intuit","Intuitive Surgical",
     "Marvell Technology","IDEXX Laboratories","Shopify","Keurig Dr Pepper","KLA","Kraft Heinz","Lam Research",
     "Lululemon Athletica","MercadoLibre","Marriott International","Microchip Technology","Mondelez International",
