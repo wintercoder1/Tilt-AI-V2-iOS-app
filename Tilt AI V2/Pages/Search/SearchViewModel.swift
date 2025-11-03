@@ -62,6 +62,7 @@ class SearchViewModel {
 //                } else {
                 
                     let analysis = OrganizationAnalysis(
+                        topic: politicalResponse.topic ?? "", // The json calls it topic, but this is the name.
                         lean: politicalResponse.lean,
                         rating: politicalResponse.rating.value, // TODO: Remove value (and flexible in as a while) and replace with int once the backend code is correctly updated.
                         description: politicalResponse.context,
@@ -90,6 +91,7 @@ class SearchViewModel {
             case .success(let financialResponse):
 //                print("Financial Response: \(financialResponse)\n")
                 analysis = OrganizationAnalysis(
+                    topic: politicalResponse.topic ?? "", // The json calls it topic, but this is the name.
                     lean: politicalResponse.lean,
                     rating: politicalResponse.rating.value, // TODO: Remove value (and flexible in as a while) and replace with int once the backend code is correctly updated.
                     description: politicalResponse.context,
@@ -100,6 +102,7 @@ class SearchViewModel {
             case .failure:
                 // If financial contributions fail, still show the political data
                 analysis = OrganizationAnalysis(
+                    topic: politicalResponse.topic ?? "", // The json calls it topic, but this is the name.
                     lean: politicalResponse.lean,
                     rating: politicalResponse.rating.value, // TODO: Remove value (and flexible in as a while) and replace with int once the backend code is correctly updated.
                     description: politicalResponse.context,

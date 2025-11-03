@@ -344,22 +344,34 @@ class OverviewViewController: BaseViewController {
         }
     }
     
-    
+
     /**
         Persistence Methods.
     */
     @objc private func saveButtonTapped() {
         guard let analysis = analysis, !organizationName.isEmpty else { return }
-        
-        let persistence = CoreDataPersistence()
-        let context = persistence.container.viewContext
+        let context = CoreDataPersistence().container.viewContext
         
         if isSaved {
-            // Remove from saved
-            removePersistedQueryAnswer(context: context, organizationName: organizationName)
+            CoreDataHelper.removePersistedQueryAnswer(
+                context: context,
+                organizationName: self.organizationName,
+                completion: { wasSaved in
+                    self.isSaved = !wasSaved
+                }
+            )
         } else {
             // Save the analysis
-            addPersistedQueryAnswer(context: context, analysis: analysis)
+            CoreDataHelper.addPersistedQueryAnswer(
+                context: context,
+                analysis: analysis,
+                organizationName: self.organizationName,
+                overviewPageCompletion: {
+                    wasSaved in
+                    self.isSaved = wasSaved
+                    self.updateSaveButtonAppearance()
+                }
+            )
         }
         
         // Update UI immediately for unsave operation
@@ -368,47 +380,47 @@ class OverviewViewController: BaseViewController {
         }
     }
     
-    private func addPersistedQueryAnswer(context: NSManagedObjectContext, analysis: OrganizationAnalysis) {
-        context.perform { [weak self] in
-            guard let self = self else { return }
-            
-            let qa = QueryAnswerObject(context: context)
-            qa.date_persisted = Date()
-            qa.topic = self.organizationName
-            qa.lean = analysis.lean
-            qa.rating = Int16(analysis.rating)
-            qa.context = analysis.description
-            qa.created_with_financial_contributions_info = analysis.hasFinancialContributions
-            
-            do {
-                try context.save()
-                DispatchQueue.main.async {
-                    self.isSaved = true
-                    self.updateSaveButtonAppearance()
-//                    print("Analysis saved successfully")
-                }
-            } catch {
-                print("Query answer save error:", error)
-            }
-        }
-    }
-    
-    private func removePersistedQueryAnswer(context: NSManagedObjectContext, organizationName: String) {
-        let request: NSFetchRequest<QueryAnswerObject> = QueryAnswerObject.fetchRequest()
-        request.predicate = NSPredicate(format: "topic == %@", organizationName)
-        
-        do {
-            let results = try context.fetch(request)
-            for result in results {
-                context.delete(result)
-            }
-            try context.save()
-            isSaved = false
-//            print("Analysis removed from saved items")
-        } catch {
-            print("Error removing saved analysis: \(error)")
-        }
-    }
+//    private func addPersistedQueryAnswer(context: NSManagedObjectContext, analysis: OrganizationAnalysis) {
+//        context.perform { [weak self] in
+//            guard let self = self else { return }
+//            
+//            let qa = QueryAnswerObject(context: context)
+//            qa.date_persisted = Date()
+//            qa.topic = self.organizationName
+//            qa.lean = analysis.lean
+//            qa.rating = Int16(analysis.rating)
+//            qa.context = analysis.description
+//            qa.created_with_financial_contributions_info = analysis.hasFinancialContributions
+//            
+//            do {
+//                try context.save()
+//                DispatchQueue.main.async {
+//                    self.isSaved = true
+//                    self.updateSaveButtonAppearance()
+////                    print("Analysis saved successfully")
+//                }
+//            } catch {
+//                print("Query answer save error:", error)
+//            }
+//        }
+//    }
+//    
+//    private func removePersistedQueryAnswer(context: NSManagedObjectContext, organizationName: String) {
+//        let request: NSFetchRequest<QueryAnswerObject> = QueryAnswerObject.fetchRequest()
+//        request.predicate = NSPredicate(format: "topic == %@", organizationName)
+//        
+//        do {
+//            let results = try context.fetch(request)
+//            for result in results {
+//                context.delete(result)
+//            }
+//            try context.save()
+//            isSaved = false
+////            print("Analysis removed from saved items")
+//        } catch {
+//            print("Error removing saved analysis: \(error)")
+//        }
+//    }
     
     // Add this method to your OverviewViewController class
     func configureWithPersistedData(analysis: OrganizationAnalysis, organizationName: String, coordinator: AppCoordinator) {

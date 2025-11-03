@@ -514,11 +514,18 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 // Now proceed with deletion using the fresh object
                 if let topicToDelete = freshObject.topic {
-                    removePersistedQueryAnswer(context: context, organizationName: topicToDelete)
-                    
-                    // Remove from local array and table view
-                    self.persistedQueryAnswers.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    CoreDataHelper.removePersistedQueryAnswer(
+                        context: context,
+                        organizationName: topicToDelete,
+                        completion: { _ in
+                            // Remove from local array and table view
+                            DispatchQueue.main.async {
+                                // Remove from local array and table view
+                                self.persistedQueryAnswers.remove(at: indexPath.row)
+                                tableView.deleteRows(at: [indexPath], with: .fade)
+                            }
+                        }
+                    )
                 }
             } catch {
                 print("Error getting fresh object: \(error)")
@@ -546,6 +553,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 if let topic = freshObject.topic {
                     // Create OrganizationAnalysis from persisted data
                     let analysis = OrganizationAnalysis(
+                        topic: freshObject.topic ?? "", // The json calls it topic, but this is the name.
                         lean: freshObject.lean ?? "Unknown",
                         rating: Int(freshObject.rating),
                         description: freshObject.context ?? "No description available",

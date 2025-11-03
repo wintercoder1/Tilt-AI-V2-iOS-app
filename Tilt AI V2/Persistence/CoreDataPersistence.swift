@@ -34,4 +34,5 @@ final class CoreDataPersistence {
         // Modern constraint validation & undo if you like:
         container.viewContext.undoManager = nil
     }
+ 
 }

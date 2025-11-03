@@ -7,6 +7,7 @@
 
 // MARK: - Models
 struct OrganizationAnalysis {
+    let topic: String
     let lean: String
     let rating: Int // FlexibleInt // TODO: Remove and replace with int once the backend is correctly updated.
     let description: String
