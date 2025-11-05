@@ -18,7 +18,7 @@
                BlueprintIdentifier = "AAFDD2B92E57B7F90005D5DA"
                BuildableName = "Tilt AI.app"
                BlueprintName = "Tilt AI"
-               ReferencedContainer = "container:Tilt AI.xcodeproj">
+               ReferencedContainer = "container:Compass AI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -38,7 +38,7 @@
                BlueprintIdentifier = "AAFDD2CF2E57B7FB0005D5DA"
                BuildableName = "Tilt AI Tests.xctest"
                BlueprintName = "Tilt AI Tests"
-               ReferencedContainer = "container:Tilt AI.xcodeproj">
+               ReferencedContainer = "container:Compass AI.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -49,7 +49,7 @@
                BlueprintIdentifier = "AAFDD2D92E57B7FB0005D5DA"
                BuildableName = "Tilt AI UITests.xctest"
                BlueprintName = "Tilt AI UITests"
-               ReferencedContainer = "container:Tilt AI.xcodeproj">
+               ReferencedContainer = "container:Compass AI.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,7 +71,7 @@
             BlueprintIdentifier = "AAFDD2B92E57B7F90005D5DA"
             BuildableName = "Tilt AI.app"
             BlueprintName = "Tilt AI"
-            ReferencedContainer = "container:Tilt AI.xcodeproj">
+            ReferencedContainer = "container:Compass AI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -94,7 +94,7 @@
             BlueprintIdentifier = "AAFDD2B92E57B7F90005D5DA"
             BuildableName = "Tilt AI.app"
             BlueprintName = "Tilt AI"
-            ReferencedContainer = "container:Tilt AI.xcodeproj">
+            ReferencedContainer = "container:Compass AI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

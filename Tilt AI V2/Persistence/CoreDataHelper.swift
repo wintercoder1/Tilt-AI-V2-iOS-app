@@ -1,6 +1,6 @@
 //
 //  CoreDataHelper.swift
-//  Tilt AI
+//  Compass AI
 //
 //  Created by Steve on 11/2/25.
 //
@@ -10,11 +10,7 @@ class CoreDataHelper {
     
     class func addPersistedQueryAnswer(context: NSManagedObjectContext, analysis: OrganizationAnalysis, organizationName: String?, overviewPageCompletion: @escaping ((Bool) -> Void) ) {
         
-        context.perform { //[weak self] in
-//            guard let self = self else {
-//                print("lol self issue")
-//                return
-//            }
+        context.perform {
             
             let qa = QueryAnswerObject(context: context)
             qa.date_persisted = Date()

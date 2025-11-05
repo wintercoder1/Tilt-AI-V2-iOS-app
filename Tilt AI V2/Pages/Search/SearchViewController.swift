@@ -8,13 +8,13 @@ class SearchViewController: BaseViewController {
     // MARK: - UI Components
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private var headerView: TiltAIHeaderView!
+    private var headerView: CompassAIHeaderView!
     private let cardView = UIView()
     private let titleLabel = UILabel()
     private let searchTextField = UITextField()
     private let tableView = UITableView()
     private let continueButton = UIButton(type: .system)
-    private var footerView: TiltAIFooterView!
+    private var footerView: CompassAIFooterView!
     
     // MARK: - Hamburger Menu Components
     private let hamburgerButton = UIButton(type: .system)
@@ -59,7 +59,7 @@ class SearchViewController: BaseViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         
         // Add the custom header with larger font size and no back button
-        headerView = addTiltAIHeader(title: "Tilt AI", showBackButton: false)
+        headerView = addCompassAIHeader(title: "Compass AI", showBackButton: false)
         
         // Configure scroll view
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -241,7 +241,7 @@ class SearchViewController: BaseViewController {
     }
     
     private func setupFooter() {
-        footerView = addTiltAIFooter(
+        footerView = addCompassAIFooter(
             to: scrollView,
             below: cardView.bottomAnchor
         )

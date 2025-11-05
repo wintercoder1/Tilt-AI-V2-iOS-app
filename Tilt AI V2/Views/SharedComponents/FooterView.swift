@@ -1,14 +1,14 @@
 //
 //  FooterView.swift
-//  Tilt AI V2
+//  Compass AI V2
 //
 //  Created by Steve on 8/25/25.
 //
 
 import UIKit
 
-// MARK: - Tilt AI Footer View
-class TiltAIFooterView: UIView {
+// MARK: - Compass AI Footer View
+class CompassAIFooterView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,7 +56,7 @@ class TiltAIFooterView: UIView {
         
         // Disclaimer label
         let disclaimerLabel = UILabel()
-        disclaimerLabel.text = "This website provides information derived from publicly available data. Tilt AI and Correlation LLC do not endorse any political candidates or organizations mentioned."
+        disclaimerLabel.text = "This website provides information derived from publicly available data. Compass AI and Correlation Apps LLC do not endorse any political candidates or organizations mentioned."
         disclaimerLabel.font = UIFont.systemFont(ofSize: 11)
         disclaimerLabel.textColor = UIColor.systemGray2
         disclaimerLabel.textAlignment = .center
@@ -104,7 +104,7 @@ class TiltAIFooterView: UIView {
 // MARK: - UIViewController Extension
 extension UIViewController {
     
-    // Adds a Tilt AI footer to a container view
+    // Adds a Compass AI footer to a container view
     /// - Parameters:
     ///   - containerView: The view to add the footer to
     ///   - topAnchor: The anchor to position the footer below
@@ -114,7 +114,7 @@ extension UIViewController {
     ///   - bottomPaddingHeight: Height of bottom padding view (defaults to 200)
     /// - Returns: The configured footer stack view
     @discardableResult
-    func addTiltAIFooterStackView(to containerView: UIView,
+    func addCompassAIFooterStackView(to containerView: UIView,
                             below topAnchor: NSLayoutYAxisAnchor,
                             topConstant: CGFloat = 100,
                             bottomConstant: CGFloat = -220,
@@ -144,7 +144,7 @@ extension UIViewController {
         dataSourceLabel.numberOfLines = 0
         
         let disclaimerLabel = UILabel()
-        disclaimerLabel.text = "  This website provides information derived from publicly available data. Tilt AI and Correlation LLC do not endorse any political candidates or organizations mentioned.  "
+        disclaimerLabel.text = "  This website provides information derived from publicly available data. Compass AI and Correlation Apps LLC do not endorse any political candidates or organizations mentioned.  "
         disclaimerLabel.font = UIFont.systemFont(ofSize: 12)
         disclaimerLabel.textColor = .systemGray
         disclaimerLabel.textAlignment = .center
@@ -203,93 +203,8 @@ extension UIViewController {
         
         return footerStackView
     }
-//    func addTiltAIFooterStackView(to containerView: UIView,
-//                        below topAnchor: NSLayoutYAxisAnchor,
-//                        topConstant: CGFloat = 100,
-//                        bottomConstant: CGFloat = -20,
-//                        includeBottomPadding: Bool = false,
-//                        bottomPaddingHeight: CGFloat = 200) -> UIStackView {
-//        
-//        // Create footer stack view
-//        let footerStackView = UIStackView()
-//        footerStackView.axis = .vertical
-//        footerStackView.spacing = 8
-//        footerStackView.alignment = .center
-//        footerStackView.translatesAutoresizingMaskIntoConstraints = false
-//        footerStackView.backgroundColor = .white
-//            
-//        // Create footer labels
-//        let copyrightLabel = UILabel()
-//        copyrightLabel.text = "  © 2025 Correlation LLC. All rights reserved.  "
-//        copyrightLabel.font = UIFont.systemFont(ofSize: 14)
-//        copyrightLabel.textColor = .systemGray
-//        copyrightLabel.textAlignment = .center
-//        
-//        let dataSourceLabel = UILabel()
-//        dataSourceLabel.text = "  Data sourced from public FEC filings and other regulatory sources.  "
-//        dataSourceLabel.font = UIFont.systemFont(ofSize: 14)
-//        dataSourceLabel.textColor = .systemGray
-//        dataSourceLabel.textAlignment = .center
-//        dataSourceLabel.numberOfLines = 0
-//        
-//        let disclaimerLabel = UILabel()
-//        disclaimerLabel.text = "  This website provides information derived from publicly available data. Tilt AI and Correlation LLC do not endorse any political candidates or organizations mentioned.  "
-//        disclaimerLabel.font = UIFont.systemFont(ofSize: 12)
-//        disclaimerLabel.textColor = .systemGray
-//        disclaimerLabel.textAlignment = .center
-//        disclaimerLabel.numberOfLines = 0
-//            
-//            // Add labels to stack view
-//        footerStackView.addArrangedSubview(copyrightLabel)
-//        footerStackView.addArrangedSubview(dataSourceLabel)
-//        footerStackView.addArrangedSubview(disclaimerLabel)
-//        
-//        // Add footer to container
-//        containerView.addSubview(footerStackView)
-//        
-//        // Create bottom padding view if requested
-//        var bottomPaddingView: UIView?
-//        if includeBottomPadding {
-//            bottomPaddingView = UIView()
-//            bottomPaddingView!.translatesAutoresizingMaskIntoConstraints = false
-//            bottomPaddingView!.backgroundColor = .white
-//            containerView.addSubview(bottomPaddingView!)
-//        }
-//            
-//        // Set up constraints
-//        let footerViewHeight: CGFloat = 140.0
-//        var constraints = [
-//            // Footer stack view constraints
-////            footerStackView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: topConstant),
-//            footerStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
-//            footerStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
-//            footerStackView.heightAnchor.constraint(equalToConstant: footerViewHeight)
-//        ]
-//            
-//        if let bottomPaddingView = bottomPaddingView {
-//            // If bottom padding is included, anchor footer to it
-//            constraints.append(contentsOf: [
-//                footerStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: bottomConstant),
-//                
-//                // Bottom padding constraints
-//                bottomPaddingView.topAnchor.constraint(equalTo: footerStackView.bottomAnchor, constant: 0),
-//                bottomPaddingView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
-//                bottomPaddingView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
-//                bottomPaddingView.heightAnchor.constraint(equalToConstant: bottomPaddingHeight)
-//            ])
-//        } else {
-//            // If no bottom padding, anchor footer directly to bottom
-//            constraints.append(
-//                footerStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: bottomConstant)
-//            )
-//        }
-//        
-//        NSLayoutConstraint.activate(constraints)
-//        
-//        return footerStackView
-//    }
-    
-    /// Adds a Tilt AI footer to a container view
+ 
+    /// Adds a Compass AI footer to a container view
     /// - Parameters:
     ///   - containerView: The view to add the footer to
     ///   - topAnchor: The anchor to position the footer below
@@ -300,15 +215,15 @@ extension UIViewController {
     ///   - bottomConstant: Bottom spacing (defaults to -40)
     /// - Returns: The configured footer view
     @discardableResult
-    func addTiltAIFooter(to containerView: UIView,
+    func addCompassAIFooter(to containerView: UIView,
                             below topAnchor: NSLayoutYAxisAnchor,
                             above bottomAnchor: NSLayoutYAxisAnchor? = nil,
                             leadingConstant: CGFloat = 0, // Changed from 20 to 0 for full width
                             trailingConstant: CGFloat = 0, // Changed from -20 to 0 for full width
                             topConstant: CGFloat = 100,
-                            bottomConstant: CGFloat = -100) -> TiltAIFooterView {
+                            bottomConstant: CGFloat = -100) -> CompassAIFooterView {
             
-        let footerView = TiltAIFooterView()
+        let footerView = CompassAIFooterView()
         footerView.translatesAutoresizingMaskIntoConstraints = false
         
         containerView.addSubview(footerView)

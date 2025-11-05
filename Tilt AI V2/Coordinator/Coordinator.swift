@@ -1,6 +1,6 @@
 //
 //  Coordinator.swift
-//  Tilt AI V2
+//  Compass AI V2
 //
 //  Created by Steve on 8/21/25.
 //

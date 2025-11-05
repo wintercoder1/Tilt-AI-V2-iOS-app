@@ -1,6 +1,6 @@
 //
 //  FinancialContributionsController.swift
-//  Tilt AI V2
+//  Compass AI V2
 //
 //  Created by Steve on 8/21/25.
 //
@@ -14,7 +14,7 @@ class FinancialContributionsViewController: BaseViewController {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private var headerView: TiltAIHeaderView!
+    private var headerView: CompassAIHeaderView!
     private let contributionsBreakdownCardView = UIView()
     private let detailsCardView = UIView()
     private let loadingView = UIView()
@@ -116,7 +116,7 @@ class FinancialContributionsViewController: BaseViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         
         // Add the custom header using the extension
-        headerView = addTiltAIHeader(title: "Tilt AI", showBackButton: true)
+        headerView = addCompassAIHeader(title: "Compass AI", showBackButton: true)
         headerView.delegate = self
         
         // Configure scroll view
@@ -223,7 +223,7 @@ class FinancialContributionsViewController: BaseViewController {
 //        emailImageView.contentMode = .scaleAspectFit
         
         let disclaimerLabel = UILabel()
-        disclaimerLabel.text = "  This website provides information derived from publicly available data. Tilt AI and Correlation LLC do not endorse any political candidates or organizations mentioned.  "
+        disclaimerLabel.text = "  This website provides information derived from publicly available data. Compass AI and Correlation Apps LLC do not endorse any political candidates or organizations mentioned.  "
         disclaimerLabel.font = UIFont.systemFont(ofSize: 12)
         disclaimerLabel.textColor = .systemGray
         disclaimerLabel.textAlignment = .center
@@ -615,9 +615,9 @@ class FinancialContributionsViewController: BaseViewController {
     }
 }
 
-// MARK: - TiltAIHeaderViewDelegate
-extension FinancialContributionsViewController: TiltAIHeaderViewDelegate {
-    func headerViewBackButtonTapped(_ headerView: TiltAIHeaderView) {
+// MARK: - CompassAIHeaderViewDelegate
+extension FinancialContributionsViewController: CompassAIHeaderViewDelegate {
+    func headerViewBackButtonTapped(_ headerView: CompassAIHeaderView) {
         coordinator?.navigateBack()
     }
 }

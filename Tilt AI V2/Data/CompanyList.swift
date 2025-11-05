@@ -1,6 +1,6 @@
 //
 //  CompanyList.swift
-//  Tilt AI
+//  Compass AI
 //
 //  Created by Steve on 9/30/25.
 //

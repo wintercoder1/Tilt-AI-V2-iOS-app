@@ -1,6 +1,6 @@
 //
 //  ResultsViewController.swift
-//  Tilt AI V2
+//  Compass AI V2
 //
 //  Created by Steve on 8/21/25.
 //
@@ -13,7 +13,7 @@ class OverviewViewController: BaseViewController {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private var headerView: TiltAIHeaderView!
+    private var headerView: CompassAIHeaderView!
     private let cardView = UIView()
     private var footerStackView = UIStackView()
     private let bottomPaddingView = UIView()
@@ -62,7 +62,7 @@ class OverviewViewController: BaseViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         
         // Add the custom header using the extension
-        headerView = addTiltAIHeader(title: "Tilt AI")
+        headerView = addCompassAIHeader(title: "Compass AI")
         headerView.delegate = self
         
         // Configure scroll view
@@ -118,10 +118,6 @@ class OverviewViewController: BaseViewController {
         saveButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
     
-//    private func setupFooter() {
-//        addTiltAIFooterStackView(to: contentView, below: cardView.bottomAnchor, topConstant: 25)
-//    }
-    
     private func setupFooterOld() {
         footerStackView.axis = .vertical
         footerStackView.spacing = 8
@@ -145,7 +141,7 @@ class OverviewViewController: BaseViewController {
         dataSourceLabel.numberOfLines = 0
         
         let disclaimerLabel = UILabel()
-        disclaimerLabel.text = "  This website provides information derived from publicly available data. Tilt AI and Correlation LLC do not endorse any political candidates or organizations mentioned.  "
+        disclaimerLabel.text = "  This website provides information derived from publicly available data. Compass AI and Correlation Apps LLC do not endorse any political candidates or organizations mentioned.  "
         disclaimerLabel.font = UIFont.systemFont(ofSize: 12)
         disclaimerLabel.textColor = .systemGray
         disclaimerLabel.textAlignment = .center
@@ -239,7 +235,7 @@ class OverviewViewController: BaseViewController {
         leanTitleLabel.textColor = .systemGray
         
         let leanValueLabel = UILabel()
-        leanValueLabel.text = analysis.lean
+        leanValueLabel.text = analysis.lean.trimmingCharacters(in: .whitespaces).capitalized
         leanValueLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         leanValueLabel.textColor = .black
         
@@ -551,9 +547,9 @@ class OverviewViewController: BaseViewController {
     }
 }
 
-// MARK: - TiltAIHeaderViewDelegate
-extension OverviewViewController: TiltAIHeaderViewDelegate {
-    func headerViewBackButtonTapped(_ headerView: TiltAIHeaderView) {
+// MARK: - CompassAIHeaderViewDelegate
+extension OverviewViewController: CompassAIHeaderViewDelegate {
+    func headerViewBackButtonTapped(_ headerView: CompassAIHeaderView) {
         coordinator?.navigateToRoot()
     }
 }

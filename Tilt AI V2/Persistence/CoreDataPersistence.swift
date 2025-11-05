@@ -1,6 +1,6 @@
 //
 //  CoreDataPersistence.swift
-//  Tilt AI V2
+//  Compass AI V2
 //
 //  Created by Steve on 9/26/25.
 

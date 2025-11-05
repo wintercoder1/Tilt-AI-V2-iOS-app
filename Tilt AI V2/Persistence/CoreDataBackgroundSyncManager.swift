@@ -12,7 +12,7 @@ class CoreDataFinancialContributionsSyncManager {
     static let shared = CoreDataFinancialContributionsSyncManager()
     
     private var isSyncing = false
-    private let syncQueue = DispatchQueue(label: "com.tiltai.financialSync", qos: .utility)
+    private let syncQueue = DispatchQueue(label: "com.compassai.financialSync", qos: .utility)
     
     private init() {}
     
