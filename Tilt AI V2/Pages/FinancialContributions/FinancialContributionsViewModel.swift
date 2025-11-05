@@ -48,7 +48,8 @@ class FinancialContributionsViewModel {
                     self?.onDataLoaded?(financialResponse.fecFinancialContributionsSummaryText)
                     self?.onFullDataLoaded?(financialResponse)
                 case .failure(let error):
-                    self?.onError?(error.localizedDescription)
+                    self?.onDataLoaded?("Could not find a matching political committee for that company.\n\n We are still working on this and will include it soon!")
+//                    self?.onError?(error.localizedDescription)
                 }
             }
         }
