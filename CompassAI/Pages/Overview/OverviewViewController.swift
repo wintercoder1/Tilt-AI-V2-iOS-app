@@ -128,7 +128,7 @@ class OverviewViewController: BaseViewController {
         bottomPaddingView.backgroundColor = .white
  
         let copyrightLabel = UILabel()
-        copyrightLabel.text = "  © 2025 Correlation LLC. All rights reserved.  "
+        copyrightLabel.text = "  © 2025 Correlation Apps LLC. All rights reserved.  "
         copyrightLabel.font = UIFont.systemFont(ofSize: 14)
         copyrightLabel.textColor = .systemGray
         copyrightLabel.textAlignment = .center

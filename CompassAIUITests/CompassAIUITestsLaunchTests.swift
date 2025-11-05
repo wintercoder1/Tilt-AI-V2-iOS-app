@@ -1,13 +1,13 @@
 //
-//  Tilt_AI_V2UITestsLaunchTests.swift
-//  Tilt AI V2UITests
+//  CompassAIUITestsLaunchTests.swift
+//  CompassA UITests
 //
 //  Created by Steve on 8/21/25.
 //
 
 import XCTest
 
-final class Tilt_AI_V2UITestsLaunchTests: XCTestCase {
+final class CompassAIUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

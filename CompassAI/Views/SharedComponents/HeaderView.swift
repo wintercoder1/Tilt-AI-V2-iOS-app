@@ -48,10 +48,11 @@ class CompassAIHeaderView: UIView {
         // Configure center content view to hold logo and title
         centerContentView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Configure slash line (the diagonal line/logo)
-        slashLineView.backgroundColor = .black
-        slashLineView.translatesAutoresizingMaskIntoConstraints = false
-        slashLineView.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 6) // 30 degree rotation
+        // TODO: Replace the slash line with a compass logo.
+//         Configure slash line (the diagonal line/logo)
+//        slashLineView.backgroundColor = .black
+//        slashLineView.translatesAutoresizingMaskIntoConstraints = false
+//        slashLineView.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 6) // 30 degree rotation
         
         // Configure title label
         titleLabel.text = "Compass AI"
@@ -66,7 +67,7 @@ class CompassAIHeaderView: UIView {
         // Add subviews
         addSubview(backButton)
         addSubview(centerContentView)
-        centerContentView.addSubview(slashLineView)
+//        centerContentView.addSubview(slashLineView)
         centerContentView.addSubview(titleLabel)
         addSubview(separatorLine)
     }
@@ -84,13 +85,15 @@ class CompassAIHeaderView: UIView {
             centerContentView.centerYAnchor.constraint(equalTo: backButton.centerYAnchor),
             
             // Slash line - positioned within center content
-            slashLineView.leadingAnchor.constraint(equalTo: centerContentView.leadingAnchor),
-            slashLineView.centerYAnchor.constraint(equalTo: centerContentView.centerYAnchor),
-            slashLineView.widthAnchor.constraint(equalToConstant: 3),
-            slashLineView.heightAnchor.constraint(equalToConstant: 24),
+//            slashLineView.leadingAnchor.constraint(equalTo: centerContentView.leadingAnchor),
+//            slashLineView.centerYAnchor.constraint(equalTo: centerContentView.centerYAnchor),
+//            slashLineView.widthAnchor.constraint(equalToConstant: 3),
+//            slashLineView.heightAnchor.constraint(equalToConstant: 24),
             
             // Title label - positioned next to slash line
-            titleLabel.leadingAnchor.constraint(equalTo: slashLineView.trailingAnchor, constant: 12),
+//            titleLabel.leadingAnchor.constraint(equalTo: slashLineView.trailingAnchor, constant: 12),
+//            titleLabel.leadingAnchor.constraint(equalTo: centerContentView.leadingAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: centerContentView.leadingAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: centerContentView.centerYAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: centerContentView.trailingAnchor),
             titleLabel.topAnchor.constraint(equalTo: centerContentView.topAnchor),

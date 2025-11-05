@@ -6,9 +6,9 @@
 //
 
 import Testing
-@testable import Tilt_AI_V2
+@testable import CompassAI
 
-struct Tilt_AI_V2Tests {
+struct CompassAITests {
 
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.

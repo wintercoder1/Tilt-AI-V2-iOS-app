@@ -33,7 +33,7 @@ class CompassAIFooterView: UIView {
     private func setupFooterContent() {
         // Copyright label
         let copyrightLabel = UILabel()
-        copyrightLabel.text = "© 2025 Correlation LLC. All rights reserved."
+        copyrightLabel.text = "© 2025 Correlation Apps LLC. All rights reserved."
         copyrightLabel.font = UIFont.systemFont(ofSize: 12)
         copyrightLabel.textColor = UIColor.systemGray
         copyrightLabel.textAlignment = .center
@@ -131,7 +131,7 @@ extension UIViewController {
         
         // Create footer labels
         let copyrightLabel = UILabel()
-        copyrightLabel.text = "  © 2025 Correlation LLC. All rights reserved.  "
+        copyrightLabel.text = "  © 2025 Correlation Apps LLC. All rights reserved.  "
         copyrightLabel.font = UIFont.systemFont(ofSize: 14)
         copyrightLabel.textColor = .systemGray
         copyrightLabel.textAlignment = .center

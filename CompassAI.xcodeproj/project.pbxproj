@@ -24,25 +24,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AAFDD2BA2E57B7F90005D5DA /* Compass AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Compass AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAFDD2D02E57B7FB0005D5DA /* Compass AI Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Compass AI Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAFDD2DA2E57B7FB0005D5DA /* Compass AI UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Compass AI UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2BA2E57B7F90005D5DA /* CompassAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CompassAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2D02E57B7FB0005D5DA /* CompassAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CompassAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2DA2E57B7FB0005D5DA /* CompassAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CompassAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AA2DCE272EBC0F74004EE087 /* Exceptions for "CompassAI" folder in "CompassAI" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AAFDD2B92E57B7F90005D5DA /* CompassAI */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AAFDD2BC2E57B7F90005D5DA /* CompassAI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AA2DCE272EBC0F74004EE087 /* Exceptions for "CompassAI" folder in "CompassAI" target */,
+			);
 			path = CompassAI;
 			sourceTree = "<group>";
 		};
-		AAFDD2D32E57B7FB0005D5DA /* Tilt AI V2Tests */ = {
+		AAFDD2D32E57B7FB0005D5DA /* CompassAITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Tilt AI V2Tests";
+			path = CompassAITests;
 			sourceTree = "<group>";
 		};
-		AAFDD2DD2E57B7FB0005D5DA /* Tilt AI V2UITests */ = {
+		AAFDD2DD2E57B7FB0005D5DA /* CompassAIUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Tilt AI V2UITests";
+			path = CompassAIUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -76,8 +89,8 @@
 			isa = PBXGroup;
 			children = (
 				AAFDD2BC2E57B7F90005D5DA /* CompassAI */,
-				AAFDD2D32E57B7FB0005D5DA /* Tilt AI V2Tests */,
-				AAFDD2DD2E57B7FB0005D5DA /* Tilt AI V2UITests */,
+				AAFDD2D32E57B7FB0005D5DA /* CompassAITests */,
+				AAFDD2DD2E57B7FB0005D5DA /* CompassAIUITests */,
 				AAFDD2BB2E57B7F90005D5DA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,9 +98,9 @@
 		AAFDD2BB2E57B7F90005D5DA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AAFDD2BA2E57B7F90005D5DA /* Compass AI.app */,
-				AAFDD2D02E57B7FB0005D5DA /* Compass AI Tests.xctest */,
-				AAFDD2DA2E57B7FB0005D5DA /* Compass AI UITests.xctest */,
+				AAFDD2BA2E57B7F90005D5DA /* CompassAI.app */,
+				AAFDD2D02E57B7FB0005D5DA /* CompassAITests.xctest */,
+				AAFDD2DA2E57B7FB0005D5DA /* CompassAIUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +108,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AAFDD2B92E57B7F90005D5DA /* Compass AI */ = {
+		AAFDD2B92E57B7F90005D5DA /* CompassAI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI" */;
+			buildConfigurationList = AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "CompassAI" */;
 			buildPhases = (
 				AAFDD2B62E57B7F90005D5DA /* Sources */,
 				AAFDD2B72E57B7F90005D5DA /* Frameworks */,
@@ -110,16 +123,16 @@
 			fileSystemSynchronizedGroups = (
 				AAFDD2BC2E57B7F90005D5DA /* CompassAI */,
 			);
-			name = "Compass AI";
+			name = CompassAI;
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2";
-			productReference = AAFDD2BA2E57B7F90005D5DA /* Compass AI.app */;
+			productReference = AAFDD2BA2E57B7F90005D5DA /* CompassAI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AAFDD2CF2E57B7FB0005D5DA /* Compass AI Tests */ = {
+		AAFDD2CF2E57B7FB0005D5DA /* CompassAITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI Tests" */;
+			buildConfigurationList = AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "CompassAITests" */;
 			buildPhases = (
 				AAFDD2CC2E57B7FB0005D5DA /* Sources */,
 				AAFDD2CD2E57B7FB0005D5DA /* Frameworks */,
@@ -131,18 +144,18 @@
 				AAFDD2D22E57B7FB0005D5DA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				AAFDD2D32E57B7FB0005D5DA /* Tilt AI V2Tests */,
+				AAFDD2D32E57B7FB0005D5DA /* CompassAITests */,
 			);
-			name = "Compass AI Tests";
+			name = CompassAITests;
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2Tests";
-			productReference = AAFDD2D02E57B7FB0005D5DA /* Compass AI Tests.xctest */;
+			productReference = AAFDD2D02E57B7FB0005D5DA /* CompassAITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AAFDD2D92E57B7FB0005D5DA /* Compass AI UITests */ = {
+		AAFDD2D92E57B7FB0005D5DA /* CompassAIUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI UITests" */;
+			buildConfigurationList = AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "CompassAIUITests" */;
 			buildPhases = (
 				AAFDD2D62E57B7FB0005D5DA /* Sources */,
 				AAFDD2D72E57B7FB0005D5DA /* Frameworks */,
@@ -154,13 +167,13 @@
 				AAFDD2DC2E57B7FB0005D5DA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				AAFDD2DD2E57B7FB0005D5DA /* Tilt AI V2UITests */,
+				AAFDD2DD2E57B7FB0005D5DA /* CompassAIUITests */,
 			);
-			name = "Compass AI UITests";
+			name = CompassAIUITests;
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2UITests";
-			productReference = AAFDD2DA2E57B7FB0005D5DA /* Compass AI UITests.xctest */;
+			productReference = AAFDD2DA2E57B7FB0005D5DA /* CompassAIUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -186,7 +199,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AAFDD2B52E57B7F90005D5DA /* Build configuration list for PBXProject "Compass AI" */;
+			buildConfigurationList = AAFDD2B52E57B7F90005D5DA /* Build configuration list for PBXProject "CompassAI" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -200,9 +213,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AAFDD2B92E57B7F90005D5DA /* Compass AI */,
-				AAFDD2CF2E57B7FB0005D5DA /* Compass AI Tests */,
-				AAFDD2D92E57B7FB0005D5DA /* Compass AI UITests */,
+				AAFDD2B92E57B7F90005D5DA /* CompassAI */,
+				AAFDD2CF2E57B7FB0005D5DA /* CompassAITests */,
+				AAFDD2D92E57B7FB0005D5DA /* CompassAIUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,12 +271,12 @@
 /* Begin PBXTargetDependency section */
 		AAFDD2D22E57B7FB0005D5DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AAFDD2B92E57B7F90005D5DA /* Compass AI */;
+			target = AAFDD2B92E57B7F90005D5DA /* CompassAI */;
 			targetProxy = AAFDD2D12E57B7FB0005D5DA /* PBXContainerItemProxy */;
 		};
 		AAFDD2DC2E57B7FB0005D5DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AAFDD2B92E57B7F90005D5DA /* Compass AI */;
+			target = AAFDD2B92E57B7F90005D5DA /* CompassAI */;
 			targetProxy = AAFDD2DB2E57B7FB0005D5DA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -280,7 +293,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EPDF3ATTJ8;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Tilt AI V2/Info.plist";
+				INFOPLIST_FILE = CompassAI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Compass AI";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -316,7 +329,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EPDF3ATTJ8;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Tilt AI V2/Info.plist";
+				INFOPLIST_FILE = CompassAI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Compass AI";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -474,7 +487,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Compass AI V2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Compass AI V2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CompassAI V2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CompassAI V2";
 			};
 			name = Debug;
 		};
@@ -492,7 +505,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Compass AI V2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Compass AI V2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CompassAI V2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CompassAI V2";
 			};
 			name = Release;
 		};
@@ -531,7 +544,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AAFDD2B52E57B7F90005D5DA /* Build configuration list for PBXProject "Compass AI" */ = {
+		AAFDD2B52E57B7F90005D5DA /* Build configuration list for PBXProject "CompassAI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2E62E57B7FB0005D5DA /* Debug */,
@@ -540,7 +553,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI" */ = {
+		AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "CompassAI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2E42E57B7FB0005D5DA /* Debug */,
@@ -549,7 +562,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI Tests" */ = {
+		AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "CompassAITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2E92E57B7FB0005D5DA /* Debug */,
@@ -558,7 +571,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI UITests" */ = {
+		AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "CompassAIUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2EC2E57B7FB0005D5DA /* Debug */,

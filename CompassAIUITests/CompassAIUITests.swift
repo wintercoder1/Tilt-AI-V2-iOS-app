@@ -1,13 +1,13 @@
 //
-//  Tilt_AI_V2UITests.swift
-//  Tilt AI V2UITests
+//  CompassAIUITests.swift
+//  Compass AI UITests
 //
 //  Created by Steve on 8/21/25.
 //
 
 import XCTest
 
-final class Tilt_AI_V2UITests: XCTestCase {
+final class CompassAIUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
