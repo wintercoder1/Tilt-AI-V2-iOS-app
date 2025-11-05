@@ -311,16 +311,129 @@ class OverviewViewController: BaseViewController {
         ])
     }
     
+//    @objc private func financialContributionsButtonTapped() {
+//        // Fetch financial contributions when user taps the link
+//        let financialViewModel = FinancialContributionsViewModel()
+//        financialViewModel.coordinator = coordinator
+//        
+//        // Show the financial contributions screen and start fetching data
+//        coordinator?.showFinancialContributionsScreen(organizationName: organizationName, viewModel: financialViewModel)
+//        
+//        // Trigger the data fetch
+//        financialViewModel.fetchFinancialContributions(for: organizationName)
+//    }
     @objc private func financialContributionsButtonTapped() {
-        // Fetch financial contributions when user taps the link
+        guard let analysis = analysis else { return }
+        
         let financialViewModel = FinancialContributionsViewModel()
         financialViewModel.coordinator = coordinator
         
-        // Show the financial contributions screen and start fetching data
-        coordinator?.showFinancialContributionsScreen(organizationName: organizationName, viewModel: financialViewModel)
+        // Check if we have persisted financial data
+        // There is a corner case when the user taps save and the financial contributions request is still in flight.
+        // That means it won;t be able to pull v
+        if isSaved && analysis.financialContributionsOverviewAnalysis != nil {
+            // If it is saved the financial info will already be in the organization analysis object.
+            
+//            let financialContributionsOverviewAnalysisData = analysis.financialContributionsOverviewAnalysis
+            let financialResponse = exctractAndConvertOrganizationAnalysisToFinancialContributionsResponse(analysis)
+            // Show the financial contributions screen with persisted data THAT WE ALREADY HAVE.
+            coordinator?.showFinancialContributionsScreenWithPersistedData(
+                organizationName: organizationName,
+                viewModel: financialViewModel,
+                financialData: financialResponse
+            )
+            return
+            
+//            // Fetch the persisted financial contributions from Core Data
+//            let persistence = CoreDataPersistence()
+//            let context = persistence.container.viewContext
+//            
+//            let request: NSFetchRequest<QueryAnswerObject> = QueryAnswerObject.fetchRequest()
+//            request.predicate = NSPredicate(format: "topic == %@", organizationName)
+//            request.relationshipKeyPathsForPrefetching = ["relationship"]
+//            request.fetchLimit = 1
+//            
+//            do {
+//                if let qa = try context.fetch(request).first,
+//                   let financialContributions = qa.finanicial_contributions_overview {
+//                    
+//                    // Convert Core Data object to FinancialContributionsResponse
+//                    let financialResponse = convertToFinancialContributionsResponse(financialContributions)
+//                    
+//                    // Show the financial contributions screen with persisted data
+//                    coordinator?.showFinancialContributionsScreenWithPersistedData(
+//                        organizationName: organizationName,
+//                        viewModel: financialViewModel,
+//                        financialData: financialResponse
+//                    )
+//                    return
+//                }
+//            } catch {
+//                print("Error fetching persisted financial contributions: \(error)")
+//            }
+        }
         
-        // Trigger the data fetch
+        // Fallback: Show the screen and fetch from network
+        coordinator?.showFinancialContributionsScreen(
+            organizationName: organizationName,
+            viewModel: financialViewModel
+        )
         financialViewModel.fetchFinancialContributions(for: organizationName)
+    }
+    
+    
+    private func exctractAndConvertOrganizationAnalysisToFinancialContributionsResponse(_ overviewResponse: OrganizationAnalysis) -> FinancialContributionsResponse {
+
+        // Get the financial data object.
+        let financialDataResponse:FinancialContributionsAnalysis? = overviewResponse.financialContributionsOverviewAnalysis
+        
+        return FinancialContributionsResponse(
+            topic: overviewResponse.topic,
+            normalizedTopicName: overviewResponse.topic, // Keep this way for now.
+            timestamp: "0",
+            committeeId: financialDataResponse?.committeeOrPACID ?? "0",
+            individualId: 0, // Not stored in Core Data
+            fecFinancialContributionsSummaryText: financialDataResponse?.financialContributionsText ?? "",
+            upvoteCount:  0, // We aren't doing these yet.
+            downvoteCount: 0, // We aren't doing these yet.
+            timeRangeOfData: nil,
+            cycleEndYear: nil,
+            committeeName: nil,
+            queryType: nil,
+            debug: nil, // Not stored in Core Data
+            percentContributions: financialDataResponse?.percentContributions, ////  You'll need to add this if you want to store it
+            contributionTotals: financialDataResponse?.contributionTotals, // You'll need to add this if you want to store it
+            leadershipContributionsToCommittee: financialDataResponse?.leadershipContributionsToCommittee
+        )
+    }
+    
+    // Helper method to convert Core Data object to response model
+    private func convertToFinancialContributionsResponse(_ financialData: FinancialContributionsOverview) -> FinancialContributionsResponse {
+        // Decode leadership contributions from JSON if available
+        var leadershipContributions: [LeadershipContribution]? = nil
+//        if let leadershipJSON = financialData.leadership_contributors,
+//           let jsonData = leadershipJSON.data(using: .utf8) {
+//            leadershipContributions = try? JSONDecoder().decode([LeadershipContribution].self, from: jsonData)
+//        }
+        
+        return FinancialContributionsResponse(
+            topic: financialData.topic ?? "",
+            normalizedTopicName: financialData.normalized_topic_name ?? "",
+            timestamp: financialData.timestamp,
+            committeeId: financialData.committee_id ?? "",
+            individualId: 0, // Not stored in Core Data
+            fecFinancialContributionsSummaryText: financialData.fec_financial_contributions_summary_text ?? "",
+            upvoteCount: financialData.upvote_count > 0 ? Int(financialData.upvote_count) : nil,
+            downvoteCount: financialData.downvote_count > 0 ? Int(financialData.downvote_count) : nil,
+            timeRangeOfData: financialData.time_range_of_data,
+            cycleEndYear: financialData.cycle_end_year,
+            committeeName: financialData.committee_name,
+            queryType: financialData.query_type,
+            debug: nil, // Not stored in Core Data
+            percentContributions: nil,// financialData.percent_contributions, // You'll need to add this if you want to store it
+            contributionTotals: nil, // You'll need to add this if you want to store it
+            leadershipContributionsToCommittee: leadershipContributions
+        )
     }
     
     private func checkIfAlreadySaved() {

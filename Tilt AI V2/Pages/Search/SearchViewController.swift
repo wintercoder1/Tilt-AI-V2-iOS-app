@@ -422,6 +422,17 @@ class SearchViewController: BaseViewController {
 //                print(oneQueryAnswerObject.topic ?? "No topic")
 //            }
 //            print()
+            // Debug: Check if relationships are loaded
+            for qa in self.persistedQueryAnswers {
+                if qa.created_with_financial_contributions_info {
+                    print("Topic: \(qa.topic ?? "nil")")
+                    print("Has financial relationship: \(qa.finanicial_contributions_overview != nil)")
+                    if let financial = qa.finanicial_contributions_overview {
+                        print("  - Committee: \(financial.committee_name ?? "nil")")
+                        print("  - Summary preview: \(financial.fec_financial_contributions_summary_text?.prefix(50) ?? "nil")")
+                    }
+                }
+            }
         } catch {
             print("Fetch error:", error)
         }
@@ -550,16 +561,95 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             do {
                 let freshObject = try context.existingObject(with: objectID) as! QueryAnswerObject
 //                print("Fresh object topic: \(freshObject.topic ?? "nil")")
+                
                 if let topic = freshObject.topic {
+                    
+                    let financialContributions = freshObject.finanicial_contributions_overview
+                    let finanical_exits = financialContributions != nil
+                    var financialContributionsOverviewAnaylsis: FinancialContributionsAnalysis?
+                    print("||Financial contributions loaded: \(finanical_exits)")
+                    if let financial = financialContributions {
+                        print("Committee: \(financial.committee_name ?? "nil")")
+                        print("Summary: \(financial.fec_financial_contributions_summary_text?.prefix(100) ?? "nil")")
+                        
+                        print("Financial percent_contributions          \(financial.percent_contributions)\n")
+                        print("Financial contributions_totals_list      \(financial.contributions_totals_list)\n")
+                        print("Financial leadership_contributions_list  \(financial.leadership_contributions_list)\n\n")
+                        
+                        // Percent contributions.
+                        // This is much more important than the other two sub relations.
+                        var percentContributions:PercentContributions?
+                        if let percentContributionsManagedObject = financial.percent_contributions {
+                            percentContributions = PercentContributions(
+                                totalToDemocrats: Int(percentContributionsManagedObject.total_to_democrats),
+                                totalToRepublicans: Int(percentContributionsManagedObject.total_to_republicans),
+                                percentToDemocrats: percentContributionsManagedObject.percent_to_democrats,
+                                percentToRepublicans: percentContributionsManagedObject.percent_to_republicans,
+                                totalContributions: Int(percentContributionsManagedObject.total_contributions)
+                            )
+                        } else{
+                            
+                        }
+                        
+                        // TODO: Deserialize the list objects.
+                        // I think this is kind of different than the other ones.
+//                        // Contribution totals
+//                        var contributionTotalsList = [ContributionTotal]()
+//                        if let contributionTotalsListManagedObject = financial.contributions_totals_list {
+//                            // financial.contributions_totals_list
+//                            for one_contributionTotalsListManagedObject in contributionTotalsListManagedObject {
+//                                oneContributionTotal = ContributionTotal(
+//                                    recipientID: one_contributionTotalsListManagedObject.get,
+//                                    recipientName: <#T##String?#>,
+//                                    numberOfContributions: <#T##Int?#>,
+//                                    totalContributionAmount: <#T##Int?#>)
+//                            }
+//                        }
+//                        
+//                        // Leadership contributions
+//                        var leadershipContributionsToCommitteeList = [LeadershipContribution]()
+//                        if let leadershipContributionsToCommitteeListManagedObject = financial.leadership_contributions_list {
+//                            for one_leadershipContributionsToCommitteeManagedObject in leadershipContributionsToCommitteeListManagedObject {
+//                                oneleadershipContributionsToCommittee = LeadershipContribution(
+//                                    occupation: <#T##String#>,
+//                                    name: <#T##String#>,
+//                                    employer: <#T##String#>,
+//                                    transactionAmount: <#T##String#>)
+//                            }
+//                        }
+                        
+                        financialContributionsOverviewAnaylsis = FinancialContributionsAnalysis(
+                            financialContributionsText: financial.fec_financial_contributions_summary_text,
+                            committeeOrPACName: financial.committee_name,
+                            committeeOrPACID: financial.committee_id,
+                            percentContributions: percentContributions,
+                            contributionTotals: nil,
+                            leadershipContributionsToCommittee: nil)
+                        
+                    }
+                    
+                    
                     // Create OrganizationAnalysis from persisted data
                     let analysis = OrganizationAnalysis(
                         topic: freshObject.topic ?? "", // The json calls it topic, but this is the name.
                         lean: freshObject.lean ?? "Unknown",
                         rating: Int(freshObject.rating),
                         description: freshObject.context ?? "No description available",
-                        hasFinancialContributions: freshObject.created_with_financial_contributions_info,
-                        financialContributionsText: freshObject.context
+                        hasFinancialContributions: freshObject.created_with_financial_contributions_info, /*financialContributionsOverviewAnalysis: nil*/
+//                        financialContributionsText: freshObject.context
+                        financialContributionsText: "No description available",
+                        financialContributionsOverviewAnalysis: financialContributionsOverviewAnaylsis
                     )
+                    print("\n\nPersisted freshObject for topic: \(topic)")
+                    print("Persisted freshObject:\n\n      \(freshObject)\n\n")
+                    print("Analysis object for topic: \(topic)")
+                    print("Analysis:\n\n      \(analysis)")
+                    print("Analysis Financial percent_contributions          \(analysis.financialContributionsOverviewAnalysis?.percentContributions)\n")
+                    print("Analysis Financial percent_contributions more         \(analysis.financialContributionsOverviewAnalysis?.percentContributions?.percentToDemocrats)\n")
+                    print("Analysis Financial percent_contributions more         \(analysis.financialContributionsOverviewAnalysis?.percentContributions?.percentToRepublicans)\n")
+                    print("Analysis Financial percent_contributions more         \(analysis.financialContributionsOverviewAnalysis?.percentContributions?.totalContributions)\n")
+                    print("Analysis Financial percent_contributions more         \(analysis.financialContributionsOverviewAnalysis?.percentContributions?.totalToDemocrats)\n")
+                    print("Analysis Financial percent_contributions more         \(analysis.financialContributionsOverviewAnalysis?.percentContributions?.totalToRepublicans)\n")
                     
                     // Navigate to overview page using your coordinator/navigation method
                     // You'll need to replace this with your actual navigation method

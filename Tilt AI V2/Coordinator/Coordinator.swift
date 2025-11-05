@@ -80,6 +80,21 @@ class AppCoordinator: Coordinator {
     func navigateToRoot() {
         navigationController.popToRootViewController(animated: true)
     }
+    
+    func showFinancialContributionsScreenWithPersistedData(organizationName: String, viewModel: FinancialContributionsViewModel, financialData: FinancialContributionsResponse) {
+        let financialVC = FinancialContributionsViewController()
+        financialVC.configure(organizationName: organizationName, viewModel: viewModel, coordinator: self)
+        
+        // Bind the callbacks
+        viewModel.onFullDataLoaded = { [weak financialVC] financialResponse in
+            financialVC?.setFinancialContributions(financialResponse)
+        }
+        
+        // Immediately load the persisted data
+        viewModel.loadPersistedData(financialData)
+        
+        navigationController.pushViewController(financialVC, animated: true)
+    }
 }
 
 // MARK: - App Coordinator

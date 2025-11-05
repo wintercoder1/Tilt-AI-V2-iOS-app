@@ -13,8 +13,17 @@ struct OrganizationAnalysis {
     let description: String
     let hasFinancialContributions: Bool
     let financialContributionsText: String?
+    let financialContributionsOverviewAnalysis: FinancialContributionsAnalysis?
 }
 
+struct FinancialContributionsAnalysis {
+    let financialContributionsText: String?
+    let committeeOrPACName: String?
+    let committeeOrPACID: String?
+    let percentContributions: PercentContributions?
+    let contributionTotals: [ContributionTotal]?
+    let leadershipContributionsToCommittee: [LeadershipContribution]?
+}
 
 struct PoliticalLeaningResponse: Codable {
     // Mandatory

@@ -35,6 +35,13 @@ class FinancialContributionsViewController: BaseViewController {
         bindViewModel()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        print("viewModel")
+        print(viewModel)
+        print("financialContributions")
+        print(financialContributions)
+    }
+    
     func configure(organizationName: String, viewModel: FinancialContributionsViewModel, coordinator: AppCoordinator) {
         self.organizationName = organizationName
         self.viewModel = viewModel
@@ -91,8 +98,13 @@ class FinancialContributionsViewController: BaseViewController {
     
     // Add this method to receive the full financial contributions data
     func setFinancialContributions(_ contributions: FinancialContributionsResponse) {
+        print("set financial contributions")
+        print("We got percent contributions old: \(self.financialContributions?.percentContributions)")
+        print("We got percent contributions new: \(contributions.percentContributions)")
         self.financialContributions = contributions
         DispatchQueue.main.async {
+            print("will updateContributionsBreakdownCard")
+            
             self.updateContributionsBreakdownCard()
         }
     }

@@ -67,7 +67,8 @@ class SearchViewModel {
                         rating: politicalResponse.rating.value, // TODO: Remove value (and flexible in as a while) and replace with int once the backend code is correctly updated.
                         description: politicalResponse.context,
                         hasFinancialContributions: politicalResponse.createdWithFinancialContributionsInfo,
-                        financialContributionsText: nil
+                        financialContributionsText: nil,
+                        financialContributionsOverviewAnalysis: nil
                     )
                     DispatchQueue.main.async {
                         self?.coordinator?.showResultsScreen(with: analysis, organizationName: topic)
@@ -96,7 +97,8 @@ class SearchViewModel {
                     rating: politicalResponse.rating.value, // TODO: Remove value (and flexible in as a while) and replace with int once the backend code is correctly updated.
                     description: politicalResponse.context,
                     hasFinancialContributions: true,
-                    financialContributionsText: financialResponse.fecFinancialContributionsSummaryText
+                    financialContributionsText: financialResponse.fecFinancialContributionsSummaryText,
+                    financialContributionsOverviewAnalysis: nil
                 )
                 
             case .failure:
@@ -107,7 +109,8 @@ class SearchViewModel {
                     rating: politicalResponse.rating.value, // TODO: Remove value (and flexible in as a while) and replace with int once the backend code is correctly updated.
                     description: politicalResponse.context,
                     hasFinancialContributions: false,
-                    financialContributionsText: nil
+                    financialContributionsText: nil,
+                    financialContributionsOverviewAnalysis: nil
                 )
             }
             

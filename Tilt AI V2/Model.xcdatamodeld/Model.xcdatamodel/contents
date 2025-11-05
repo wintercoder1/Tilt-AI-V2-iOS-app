@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23788.4" systemVersion="24F74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24299" systemVersion="25A362" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="FinancialContribution_ContributionTotals_ListItem" representedClassName="FinancialContribution_ContributionTotals_ListItem" syncable="YES" codeGenerationType="class">
         <attribute name="number_of_contributions" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="recipient_id" optional="YES" attributeType="String"/>
@@ -32,9 +32,9 @@
         <attribute name="timestamp" optional="YES" attributeType="String"/>
         <attribute name="topic" optional="YES" attributeType="String"/>
         <attribute name="upvote_count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialContribution_PercentContributions"/>
-        <relationship name="relationship1" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FinancialContribution_ContributionTotals_ListItem"/>
-        <relationship name="relationship2" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FinancialContribution_LeadershipContributorsToCommittee_ListItem"/>
+        <relationship name="contributions_totals_list" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FinancialContribution_ContributionTotals_ListItem"/>
+        <relationship name="leadership_contributions_list" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FinancialContribution_LeadershipContributorsToCommittee_ListItem"/>
+        <relationship name="percent_contributions" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialContribution_PercentContributions"/>
     </entity>
     <entity name="QueryAnswerObject" representedClassName="QueryAnswerObject" syncable="YES" codeGenerationType="class">
         <attribute name="citation" optional="YES" attributeType="String"/>
@@ -52,6 +52,6 @@
         <attribute name="timestamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="topic" optional="YES" attributeType="String"/>
         <attribute name="upvote_count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialContributionsOverview"/>
+        <relationship name="finanicial_contributions_overview" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialContributionsOverview"/>
     </entity>
 </model>

@@ -4613,7 +4613,6 @@ let completeNASDAQCompanyList = [
     "Cabaletta Bio, Inc.",
     "Telomir Pharmaceuticals, Inc.",
     "Zumiez Inc.",
-    "Tesla, Inc.",
     "Cracker Barrel Old Country Store, Inc.",
     "B. Riley Financial, Inc.",
     "Royalty Management Holding Corporation",
@@ -5815,7 +5814,7 @@ let usNASDAQTop100 = [
     "Mondelez International Inc","Monster Beverage Corp","Microsoft Corp","Micron Technology Inc","Netflix Inc",
     "Grail Inc","NVIDIA Corp","NXP Semiconductors NV","Old Dominion Freight Line Inc","O'Reilly Automotive Inc",
     "Paccar Inc","Palo Alto Networks Inc","Paychex Inc","PDD Holdings Inc","PayPal Holdings Inc","PepsiCo Inc.",
-    "Qualcomm Inc","Regeneron Pharmaceuticals Inc","Ross Stores Inc","Starbucks Corp","Synopsys Inc","Tesla Inc",
+    "Qualcomm Inc","Regeneron Pharmaceuticals Inc","Ross Stores Inc","Starbucks Corp","Synopsys Inc",
     "Texas Instruments Inc","T-Mobile US Inc","Verisk Analytics Inc","Vertex Pharmaceuticals Inc","Warner Bros Discovery Inc",
     "Workday Inc","Xcel Energy Inc","Zscaler Inc","Automatic Data Processing Inc","Airbnb Inc","Advanced Micro Devices Inc",
     "Constellation Energy Corp","Amazon","Amgen Inc","American Electric Power Company Inc","CDW Corp",
@@ -5836,7 +5835,7 @@ let usNASDAQTop100WithoutIncOrCompanySufffix = [
     "Lululemon Athletica","MercadoLibre","Marriott International","Microchip Technology","Mondelez International",
     "Monster Beverage","Microsoft","Micron Technology","Netflix","Grail","NVIDIA","NXP Semiconductors",
     "Old Dominion Freight Line","O'Reilly Automotive","Paccar","Palo Alto Networks","Paychex","PDD Holdings",
-    "PayPal Holdings","PepsiCo","Qualcomm","Regeneron Pharmaceuticals","Ross Stores","Starbucks","Synopsys","Tesla",
+    "PayPal Holdings","PepsiCo","Qualcomm","Regeneron Pharmaceuticals","Ross Stores","Starbucks","Synopsys",
     "Texas Instruments","T-Mobile US","Verisk Analytics","Vertex Pharmaceuticals","Warner Bros Discovery","Workday",
     "Xcel Energy","Zscaler","Automatic Data Processing","Airbnb","Advanced Micro Devices","Constellation Energy",
     "Amazon","Amgen","American Electric Power","CDW","Coca-Cola Europacific Partners","Analog Devices",
@@ -5852,8 +5851,8 @@ let usNASDAQTop100WithoutIncOrCompanySufffix = [
 // const wellKnownPrivateOrgs = []
 
 let miscOrgs = [
-    "Google", "Meta", "Tesla", "Facebook", "Instagram", "YouTube", "LinkedIn",
-    "Uber", "Airbnb", "Spotify", "Nike", "Adidas", "Coca-Cola", "Pepsi", "McDonald\'s",
+    "Meta", "Facebook", "Instagram", "YouTube", "LinkedIn",
+    "Uber", "Airbnb", "Spotify", "Nike", "Adidas", "Coca-Cola", "McDonald\'s",
     "Walmart", "Target", "Home Depot", "Best Buy", "GameStop", "AMC", "Disney", "Warner Bros",
     "EA Sports", "Activision", "Blizzard", "Ford", "General Motors", "JPMorgan Chase",
     "Bank of America","General Motors", "Wells Fargo", "Goldman Sachs", "Visa", "Mastercard",
