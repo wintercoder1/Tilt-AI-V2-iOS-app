@@ -1,0 +1,20 @@
+//
+//  ViewController.swift
+//  Compass AI V2
+//
+//  Created by Steve on 8/21/25.
+//
+
+import UIKit
+
+class BaseViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        overrideUserInterfaceStyle = .light
+    }
+
+
+}
+

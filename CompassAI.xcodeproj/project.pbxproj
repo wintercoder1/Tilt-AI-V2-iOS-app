@@ -24,28 +24,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AAFDD2BA2E57B7F90005D5DA /* Tilt AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tilt AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAFDD2D02E57B7FB0005D5DA /* Tilt AI Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tilt AI Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAFDD2DA2E57B7FB0005D5DA /* Tilt AI UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tilt AI UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2BA2E57B7F90005D5DA /* Compass AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Compass AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2D02E57B7FB0005D5DA /* Compass AI Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Compass AI Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFDD2DA2E57B7FB0005D5DA /* Compass AI UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Compass AI UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AAFDD2E22E57B7FB0005D5DA /* Exceptions for "Tilt AI V2" folder in "Tilt AI" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AAFDD2BC2E57B7F90005D5DA /* Tilt AI V2 */ = {
+		AAFDD2BC2E57B7F90005D5DA /* CompassAI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AAFDD2E22E57B7FB0005D5DA /* Exceptions for "Tilt AI V2" folder in "Tilt AI" target */,
-			);
-			path = "Tilt AI V2";
+			path = CompassAI;
 			sourceTree = "<group>";
 		};
 		AAFDD2D32E57B7FB0005D5DA /* Tilt AI V2Tests */ = {
@@ -88,7 +75,7 @@
 		AAFDD2B12E57B7F90005D5DA = {
 			isa = PBXGroup;
 			children = (
-				AAFDD2BC2E57B7F90005D5DA /* Tilt AI V2 */,
+				AAFDD2BC2E57B7F90005D5DA /* CompassAI */,
 				AAFDD2D32E57B7FB0005D5DA /* Tilt AI V2Tests */,
 				AAFDD2DD2E57B7FB0005D5DA /* Tilt AI V2UITests */,
 				AAFDD2BB2E57B7F90005D5DA /* Products */,
@@ -98,9 +85,9 @@
 		AAFDD2BB2E57B7F90005D5DA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AAFDD2BA2E57B7F90005D5DA /* Tilt AI.app */,
-				AAFDD2D02E57B7FB0005D5DA /* Tilt AI Tests.xctest */,
-				AAFDD2DA2E57B7FB0005D5DA /* Tilt AI UITests.xctest */,
+				AAFDD2BA2E57B7F90005D5DA /* Compass AI.app */,
+				AAFDD2D02E57B7FB0005D5DA /* Compass AI Tests.xctest */,
+				AAFDD2DA2E57B7FB0005D5DA /* Compass AI UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AAFDD2B92E57B7F90005D5DA /* Tilt AI */ = {
+		AAFDD2B92E57B7F90005D5DA /* Compass AI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI" */;
+			buildConfigurationList = AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI" */;
 			buildPhases = (
 				AAFDD2B62E57B7F90005D5DA /* Sources */,
 				AAFDD2B72E57B7F90005D5DA /* Frameworks */,
@@ -121,18 +108,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				AAFDD2BC2E57B7F90005D5DA /* Tilt AI V2 */,
+				AAFDD2BC2E57B7F90005D5DA /* CompassAI */,
 			);
-			name = "Tilt AI";
+			name = "Compass AI";
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2";
-			productReference = AAFDD2BA2E57B7F90005D5DA /* Tilt AI.app */;
+			productReference = AAFDD2BA2E57B7F90005D5DA /* Compass AI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AAFDD2CF2E57B7FB0005D5DA /* Tilt AI Tests */ = {
+		AAFDD2CF2E57B7FB0005D5DA /* Compass AI Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI Tests" */;
+			buildConfigurationList = AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI Tests" */;
 			buildPhases = (
 				AAFDD2CC2E57B7FB0005D5DA /* Sources */,
 				AAFDD2CD2E57B7FB0005D5DA /* Frameworks */,
@@ -146,16 +133,16 @@
 			fileSystemSynchronizedGroups = (
 				AAFDD2D32E57B7FB0005D5DA /* Tilt AI V2Tests */,
 			);
-			name = "Tilt AI Tests";
+			name = "Compass AI Tests";
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2Tests";
-			productReference = AAFDD2D02E57B7FB0005D5DA /* Tilt AI Tests.xctest */;
+			productReference = AAFDD2D02E57B7FB0005D5DA /* Compass AI Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AAFDD2D92E57B7FB0005D5DA /* Tilt AI UITests */ = {
+		AAFDD2D92E57B7FB0005D5DA /* Compass AI UITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI UITests" */;
+			buildConfigurationList = AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI UITests" */;
 			buildPhases = (
 				AAFDD2D62E57B7FB0005D5DA /* Sources */,
 				AAFDD2D72E57B7FB0005D5DA /* Frameworks */,
@@ -169,11 +156,11 @@
 			fileSystemSynchronizedGroups = (
 				AAFDD2DD2E57B7FB0005D5DA /* Tilt AI V2UITests */,
 			);
-			name = "Tilt AI UITests";
+			name = "Compass AI UITests";
 			packageProductDependencies = (
 			);
 			productName = "Tilt AI V2UITests";
-			productReference = AAFDD2DA2E57B7FB0005D5DA /* Tilt AI UITests.xctest */;
+			productReference = AAFDD2DA2E57B7FB0005D5DA /* Compass AI UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -213,9 +200,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AAFDD2B92E57B7F90005D5DA /* Tilt AI */,
-				AAFDD2CF2E57B7FB0005D5DA /* Tilt AI Tests */,
-				AAFDD2D92E57B7FB0005D5DA /* Tilt AI UITests */,
+				AAFDD2B92E57B7F90005D5DA /* Compass AI */,
+				AAFDD2CF2E57B7FB0005D5DA /* Compass AI Tests */,
+				AAFDD2D92E57B7FB0005D5DA /* Compass AI UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -271,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		AAFDD2D22E57B7FB0005D5DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI */;
+			target = AAFDD2B92E57B7F90005D5DA /* Compass AI */;
 			targetProxy = AAFDD2D12E57B7FB0005D5DA /* PBXContainerItemProxy */;
 		};
 		AAFDD2DC2E57B7FB0005D5DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AAFDD2B92E57B7F90005D5DA /* Tilt AI */;
+			target = AAFDD2B92E57B7F90005D5DA /* Compass AI */;
 			targetProxy = AAFDD2DB2E57B7FB0005D5DA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -487,7 +474,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tilt AI V2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tilt AI V2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Compass AI V2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Compass AI V2";
 			};
 			name = Debug;
 		};
@@ -505,7 +492,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tilt AI V2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tilt AI V2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Compass AI V2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Compass AI V2";
 			};
 			name = Release;
 		};
@@ -553,7 +540,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI" */ = {
+		AAFDD2E32E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2E42E57B7FB0005D5DA /* Debug */,
@@ -562,7 +549,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI Tests" */ = {
+		AAFDD2E82E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2E92E57B7FB0005D5DA /* Debug */,
@@ -571,7 +558,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Tilt AI UITests" */ = {
+		AAFDD2EB2E57B7FB0005D5DA /* Build configuration list for PBXNativeTarget "Compass AI UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAFDD2EC2E57B7FB0005D5DA /* Debug */,

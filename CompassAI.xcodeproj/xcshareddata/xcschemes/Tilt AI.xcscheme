@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AAFDD2B92E57B7F90005D5DA"
-               BuildableName = "Tilt AI.app"
-               BlueprintName = "Tilt AI"
+               BuildableName = "Compass AI.app"
+               BlueprintName = "Compass AI"
                ReferencedContainer = "container:Compass AI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -36,8 +36,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AAFDD2CF2E57B7FB0005D5DA"
-               BuildableName = "Tilt AI Tests.xctest"
-               BlueprintName = "Tilt AI Tests"
+               BuildableName = "Compass AI Tests.xctest"
+               BlueprintName = "Compass AI Tests"
                ReferencedContainer = "container:Compass AI.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AAFDD2D92E57B7FB0005D5DA"
-               BuildableName = "Tilt AI UITests.xctest"
-               BlueprintName = "Tilt AI UITests"
+               BuildableName = "Compass AI UITests.xctest"
+               BlueprintName = "Compass AI UITests"
                ReferencedContainer = "container:Compass AI.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -69,8 +69,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AAFDD2B92E57B7F90005D5DA"
-            BuildableName = "Tilt AI.app"
-            BlueprintName = "Tilt AI"
+            BuildableName = "Compass AI.app"
+            BlueprintName = "Compass AI"
             ReferencedContainer = "container:Compass AI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -92,8 +92,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AAFDD2B92E57B7F90005D5DA"
-            BuildableName = "Tilt AI.app"
-            BlueprintName = "Tilt AI"
+            BuildableName = "Compass AI.app"
+            BlueprintName = "Compass AI"
             ReferencedContainer = "container:Compass AI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
