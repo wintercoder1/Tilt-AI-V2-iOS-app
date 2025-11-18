@@ -276,6 +276,7 @@ class OverviewViewController: BaseViewController {
         if analysis.hasFinancialContributions {
             let citationsLabel = UILabel()
             citationsLabel.text = "Citations:"
+//            citationsLabel.text = "Data cited:"
             citationsLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
             citationsLabel.textColor = .black
             
@@ -427,8 +428,8 @@ class OverviewViewController: BaseViewController {
             queryType: financialData.query_type,
             debug: nil, // Not stored in Core Data
             percentContributions: nil,// financialData.percent_contributions, // You'll need to add this if you want to store it
-            contributionTotals: nil, // You'll need to add this if you want to store it
-            leadershipContributionsToCommittee: leadershipContributions
+            contributionTotals: nil, //financialData.contributions_totals_list, // You'll need to add this if you want to store it
+            leadershipContributionsToCommittee: nil //financialData.leadership_contributions_list
         )
     }
     

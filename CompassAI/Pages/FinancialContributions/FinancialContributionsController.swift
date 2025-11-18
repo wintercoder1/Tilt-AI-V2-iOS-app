@@ -16,6 +16,8 @@ class FinancialContributionsViewController: BaseViewController {
     private let contentView = UIView()
     private var headerView: CompassAIHeaderView!
     private let contributionsBreakdownCardView = UIView()
+    private let leadershipContributionsCardView = UIView()
+    private let topRecipientsCardView = UIView()
     private let detailsCardView = UIView()
     private let loadingView = UIView()
     private let spinnerView = UIView()
@@ -27,6 +29,8 @@ class FinancialContributionsViewController: BaseViewController {
     private var viewModel: FinancialContributionsViewModel!
     private var financialContributions: FinancialContributionsResponse?
     private weak var coordinator: AppCoordinator?
+    
+    private var maxContributionsInitiallyDisplayed = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,10 +106,22 @@ class FinancialContributionsViewController: BaseViewController {
         print("We got percent contributions old: \(self.financialContributions?.percentContributions)")
         print("We got percent contributions new: \(contributions.percentContributions)")
         self.financialContributions = contributions
+        
+        // Children need to be un-azy loaaded
+        if let leadershipContributionsToCommittee = contributions.leadershipContributionsToCommittee {
+            self.financialContributions?.leadershipContributionsToCommittee = leadershipContributionsToCommittee
+            print("|| leadershipContributionsToCommittee: \(leadershipContributionsToCommittee)")
+        } else {
+            print("|| NO leadership contirbutions")
+            print("|| this is the self.financialContributions:")
+            print("|| \(self.financialContributions)")
+        }
         DispatchQueue.main.async {
             print("will updateContributionsBreakdownCard")
             
             self.updateContributionsBreakdownCard()
+            self.updateLeadershipContributionsCard()
+            self.updateTopRecipientsCard()
         }
     }
     
@@ -128,6 +144,8 @@ class FinancialContributionsViewController: BaseViewController {
         scrollView.addSubview(contentView)
         
         setupContributionsBreakdownCard()
+        setupLeadershipContributionsCard()
+        setupTopRecipientsCard()
         setupDetailsCard()
         setupLoadingView()
         setupFooterOld()
@@ -144,6 +162,32 @@ class FinancialContributionsViewController: BaseViewController {
         contributionsBreakdownCardView.isHidden = true // Initially hidden until data loads
         
         contentView.addSubview(contributionsBreakdownCardView)
+    }
+    
+    private func setupLeadershipContributionsCard() {
+        leadershipContributionsCardView.backgroundColor = .white
+        leadershipContributionsCardView.layer.cornerRadius = 16
+        leadershipContributionsCardView.layer.shadowColor = UIColor.black.cgColor
+        leadershipContributionsCardView.layer.shadowOffset = CGSize(width: 0, height: 8)
+        leadershipContributionsCardView.layer.shadowRadius = 16
+        leadershipContributionsCardView.layer.shadowOpacity = 0.1
+        leadershipContributionsCardView.translatesAutoresizingMaskIntoConstraints = false
+        leadershipContributionsCardView.isHidden = true // Initially hidden until data loads
+        
+        contentView.addSubview(leadershipContributionsCardView)
+    }
+    
+    private func setupTopRecipientsCard() {
+        topRecipientsCardView.backgroundColor = .white
+        topRecipientsCardView.layer.cornerRadius = 16
+        topRecipientsCardView.layer.shadowColor = UIColor.black.cgColor
+        topRecipientsCardView.layer.shadowOffset = CGSize(width: 0, height: 8)
+        topRecipientsCardView.layer.shadowRadius = 16
+        topRecipientsCardView.layer.shadowOpacity = 0.1
+        topRecipientsCardView.translatesAutoresizingMaskIntoConstraints = false
+        topRecipientsCardView.isHidden = true // Initially hidden until data loads
+        
+        contentView.addSubview(topRecipientsCardView)
     }
     
     private func setupDetailsCard() {
@@ -415,6 +459,338 @@ class FinancialContributionsViewController: BaseViewController {
         ])
     }
     
+    private func updateLeadershipContributionsCard() {
+        guard let contributions = financialContributions,
+              let leadershipContributions = contributions.leadershipContributionsToCommittee,
+              !leadershipContributions.isEmpty else {
+            leadershipContributionsCardView.isHidden = true
+            return
+        }
+        
+        leadershipContributionsCardView.isHidden = false
+        
+        // Clear existing content
+        leadershipContributionsCardView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let mainStackView = UIStackView()
+        mainStackView.axis = .vertical
+        mainStackView.spacing = 20
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Title
+        let titleLabel = UILabel()
+        titleLabel.text = "Contributors in Company Leadership"
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textColor = .black
+        titleLabel.numberOfLines = 0
+        
+        mainStackView.addArrangedSubview(titleLabel)
+        
+        // Number formatter for currency
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 0
+        
+        // Sort contributions by amount in descending order
+        let sortedContributions = leadershipContributions.sorted { contribution1, contribution2 in
+            let amount1 = Double(contribution1.transactionAmount) ?? 0
+            let amount2 = Double(contribution2.transactionAmount) ?? 0
+            return amount1 > amount2
+        }
+        
+        // Show first 5-10 contributors
+        let displayCount = min(self.maxContributionsInitiallyDisplayed, sortedContributions.count)
+        for i in 0..<displayCount {
+            let contribution = sortedContributions[i]
+            
+            let contributorView = createLeadershipContributorView(
+                contribution: contribution,
+                formatter: formatter
+            )
+            
+            mainStackView.addArrangedSubview(contributorView)
+            
+            // Add separator if not the last item
+            if i < displayCount - 1 {
+                let separator = UIView()
+                separator.backgroundColor = .systemGray5
+                separator.translatesAutoresizingMaskIntoConstraints = false
+                separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+                mainStackView.addArrangedSubview(separator)
+            }
+        }
+        
+        // Footer showing count and view all button
+        let footerStack = UIStackView()
+        footerStack.axis = .vertical
+        footerStack.spacing = 12
+        footerStack.alignment = .center
+        
+        let countLabel = UILabel()
+        countLabel.text = "Showing \(displayCount) of \(leadershipContributions.count) total leadership contributors"
+        countLabel.font = UIFont.systemFont(ofSize: 14)
+        countLabel.textColor = .systemGray
+        countLabel.textAlignment = .center
+        
+        // TODO: Implement mores contributions detail page.
+//        let viewAllButton = UIButton(type: .system)
+//        viewAllButton.setTitle("View All Leadership Contributors", for: .normal)
+//        viewAllButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+//        viewAllButton.addTarget(self, action: #selector(viewAllLeadershipContributorsTapped), for: .touchUpInside)
+        
+        footerStack.addArrangedSubview(countLabel)
+//        footerStack.addArrangedSubview(viewAllButton)
+        
+        mainStackView.addArrangedSubview(footerStack)
+        
+        leadershipContributionsCardView.addSubview(mainStackView)
+        
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: leadershipContributionsCardView.topAnchor, constant: 30),
+            mainStackView.leadingAnchor.constraint(equalTo: leadershipContributionsCardView.leadingAnchor, constant: 30),
+            mainStackView.trailingAnchor.constraint(equalTo: leadershipContributionsCardView.trailingAnchor, constant: -30),
+            mainStackView.bottomAnchor.constraint(equalTo: leadershipContributionsCardView.bottomAnchor, constant: -30)
+        ])
+    }
+    
+    private func updateTopRecipientsCard() {
+        guard let contributions = financialContributions,
+              let contributionTotals = contributions.contributionTotals,
+              !contributionTotals.isEmpty else {
+            topRecipientsCardView.isHidden = true
+            return
+        }
+        
+        topRecipientsCardView.isHidden = false
+        
+        // Clear existing content
+        topRecipientsCardView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let mainStackView = UIStackView()
+        mainStackView.axis = .vertical
+        mainStackView.spacing = 20
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Title
+        let titleLabel = UILabel()
+        titleLabel.text = "Politicians Receiving Contributions"
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textColor = .black
+        titleLabel.numberOfLines = 0
+        
+        mainStackView.addArrangedSubview(titleLabel)
+        
+        // Number formatter for currency
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 0
+        
+        // Sort contributions by amount in descending order
+        let sortedRecipients = contributionTotals.sorted { recipient1, recipient2 in
+            let amount1 = recipient1.totalContributionAmount ?? 0
+            let amount2 = recipient2.totalContributionAmount ?? 0
+            return amount1 > amount2
+        }
+        
+        // Show first 5-10 recipients
+        let displayCount = min(self.maxContributionsInitiallyDisplayed, sortedRecipients.count)
+        for i in 0..<displayCount {
+            let recipient = sortedRecipients[i]
+            
+            let recipientView = createTopRecipientView(
+                recipient: recipient,
+                formatter: formatter
+            )
+            
+            mainStackView.addArrangedSubview(recipientView)
+            
+            // Add separator if not the last item
+            if i < displayCount - 1 {
+                let separator = UIView()
+                separator.backgroundColor = .systemGray5
+                separator.translatesAutoresizingMaskIntoConstraints = false
+                separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+                mainStackView.addArrangedSubview(separator)
+            }
+        }
+        
+        // Footer showing count and view all button
+        let footerStack = UIStackView()
+        footerStack.axis = .vertical
+        footerStack.spacing = 12
+        footerStack.alignment = .center
+        
+        let countLabel = UILabel()
+        countLabel.text = "Showing \(displayCount) of \(contributionTotals.count) total recipients"
+        countLabel.font = UIFont.systemFont(ofSize: 14)
+        countLabel.textColor = .systemGray
+        countLabel.textAlignment = .center
+        
+        // TODO: Implement mores contributions detail page.
+//        let viewAllButton = UIButton(type: .system)
+//        viewAllButton.setTitle("View All Contribution Recipients", for: .normal)
+//        viewAllButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+//        viewAllButton.addTarget(self, action: #selector(viewAllRecipientsTapped), for: .touchUpInside)
+        
+        footerStack.addArrangedSubview(countLabel)
+//        footerStack.addArrangedSubview(viewAllButton)
+        
+        mainStackView.addArrangedSubview(footerStack)
+        
+        topRecipientsCardView.addSubview(mainStackView)
+        
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: topRecipientsCardView.topAnchor, constant: 30),
+            mainStackView.leadingAnchor.constraint(equalTo: topRecipientsCardView.leadingAnchor, constant: 30),
+            mainStackView.trailingAnchor.constraint(equalTo: topRecipientsCardView.trailingAnchor, constant: -30),
+            mainStackView.bottomAnchor.constraint(equalTo: topRecipientsCardView.bottomAnchor, constant: -30)
+        ])
+    }
+    
+    private func createLeadershipContributorView(contribution: LeadershipContribution, formatter: NumberFormatter) -> UIView {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Top row: Name and Amount
+        let topRow = UIStackView()
+        topRow.axis = .horizontal
+        topRow.distribution = .equalSpacing
+        topRow.alignment = .top
+        
+        let nameLabel = UILabel()
+        nameLabel.text = contribution.name.uppercased()
+        nameLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        nameLabel.textColor = .black
+        nameLabel.numberOfLines = 0
+        nameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        let amountLabel = UILabel()
+        if let amount = Double(contribution.transactionAmount) {
+            amountLabel.text = formatter.string(from: NSNumber(value: amount))
+        } else {
+            amountLabel.text = contribution.transactionAmount
+        }
+        amountLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        amountLabel.textColor = .black
+        amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        amountLabel.setContentHuggingPriority(.required, for: .horizontal)
+        
+        topRow.addArrangedSubview(nameLabel)
+        topRow.addArrangedSubview(amountLabel)
+        
+        // Occupation
+        let occupationLabel = UILabel()
+        occupationLabel.text = contribution.occupation
+        occupationLabel.font = UIFont.systemFont(ofSize: 14)
+        occupationLabel.textColor = .systemGray
+        occupationLabel.numberOfLines = 0
+        
+        // Employer
+        let employerLabel = UILabel()
+        employerLabel.text = contribution.employer
+        employerLabel.font = UIFont.systemFont(ofSize: 14)
+        employerLabel.textColor = .systemGray
+        employerLabel.numberOfLines = 0
+        
+        stackView.addArrangedSubview(topRow)
+        stackView.addArrangedSubview(occupationLabel)
+        stackView.addArrangedSubview(employerLabel)
+        
+        // Contributions count label (if you want to add it later)
+        // For now, showing single contribution
+        
+        containerView.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+        
+        return containerView
+    }
+    
+    private func createTopRecipientView(recipient: ContributionTotal, formatter: NumberFormatter) -> UIView {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Top row: Recipient Name and Amount
+        let topRow = UIStackView()
+        topRow.axis = .horizontal
+        topRow.distribution = .equalSpacing
+        topRow.alignment = .top
+        
+        let nameLabel = UILabel()
+        nameLabel.text = (recipient.recipientName ?? "Unknown").uppercased()
+        nameLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        nameLabel.textColor = .black
+        nameLabel.numberOfLines = 0
+        nameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        let amountLabel = UILabel()
+        if let amount = recipient.totalContributionAmount {
+            amountLabel.text = formatter.string(from: NSNumber(value: amount))
+        } else {
+            amountLabel.text = "$0"
+        }
+        amountLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        amountLabel.textColor = .black
+        amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        amountLabel.setContentHuggingPriority(.required, for: .horizontal)
+        
+        topRow.addArrangedSubview(nameLabel)
+        topRow.addArrangedSubview(amountLabel)
+        
+        // Contribution count
+        let countLabel = UILabel()
+        if let count = recipient.numberOfContributions {
+            let contributionText = count == 1 ? "contribution" : "contributions"
+            countLabel.text = "\(count) \(contributionText)"
+        } else {
+            countLabel.text = "0 contributions"
+        }
+        countLabel.font = UIFont.systemFont(ofSize: 14)
+        countLabel.textColor = .systemGray
+        countLabel.numberOfLines = 0
+        
+        stackView.addArrangedSubview(topRow)
+        stackView.addArrangedSubview(countLabel)
+        
+        containerView.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+        
+        return containerView
+    }
+    
+    @objc private func viewAllLeadershipContributorsTapped() {
+        // TODO: Implement navigation to full list of leadership contributors
+        // You can create a new view controller to show all contributors
+        print("View all leadership contributors tapped")
+    }
+    
+    @objc private func viewAllRecipientsTapped() {
+        // TODO: Implement navigation to full list of contribution recipients
+        // You can create a new view controller to show all recipients
+        print("View all contribution recipients tapped")
+    }
+    
     private func startLoadingSpinner() {
         let circleLayer = CAShapeLayer()
         let circlePath = UIBezierPath(
@@ -468,10 +844,19 @@ class FinancialContributionsViewController: BaseViewController {
             contributionsBreakdownCardView.topAnchor.constraint(equalTo: detailsCardView.bottomAnchor, constant: 20),
             contributionsBreakdownCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             contributionsBreakdownCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            contributionsBreakdownCardView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -40),
+            
+            // Leadership contributions card (third)
+            leadershipContributionsCardView.topAnchor.constraint(equalTo: contributionsBreakdownCardView.bottomAnchor, constant: 20),
+            leadershipContributionsCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            leadershipContributionsCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            // Top recipients card (fourth)
+            topRecipientsCardView.topAnchor.constraint(equalTo: leadershipContributionsCardView.bottomAnchor, constant: 20),
+            topRecipientsCardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            topRecipientsCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             // Footer
-            footerStackView.topAnchor.constraint(greaterThanOrEqualTo: contributionsBreakdownCardView.bottomAnchor, constant: 25),
+            footerStackView.topAnchor.constraint(greaterThanOrEqualTo: topRecipientsCardView.bottomAnchor, constant: 25),
             footerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
             footerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             footerStackView.heightAnchor.constraint(equalToConstant: footerViewHeight),
@@ -488,6 +873,8 @@ class FinancialContributionsViewController: BaseViewController {
     private func showLoading() {
         loadingView.isHidden = false
         contributionsBreakdownCardView.isHidden = true
+        leadershipContributionsCardView.isHidden = true
+        topRecipientsCardView.isHidden = true
     }
     
     private func hideLoading() {
@@ -555,6 +942,8 @@ class FinancialContributionsViewController: BaseViewController {
         
         // Update the breakdown card as well
         updateContributionsBreakdownCard()
+        updateLeadershipContributionsCard()
+        updateTopRecipientsCard()
     }
     
     private func showError(_ message: String) {
@@ -566,6 +955,8 @@ class FinancialContributionsViewController: BaseViewController {
         }
         
         contributionsBreakdownCardView.isHidden = true
+        leadershipContributionsCardView.isHidden = true
+        topRecipientsCardView.isHidden = true
         
         let errorStackView = UIStackView()
         errorStackView.axis = .vertical

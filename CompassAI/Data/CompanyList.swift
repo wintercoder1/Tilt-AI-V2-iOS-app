@@ -5807,7 +5807,8 @@ let usNASDAQTop100 = [
     "CrowdStrike Holdings Inc","Cintas Corp","Cisco Systems Inc", "Comcast Corp","Costco Wholesale Corp",
     "CSX Corp","Cognizant Technology Solutions Corp", "Datadog Inc","Dexcom Inc","Diamondback Energy Inc",
     "Electronic Arts","ON Semiconductor Corp", "Exelon Corp","Trade Desk Inc","Fastenal Co","GlobalFoundries Inc",
-    "Meta Platforms Inc","Fiserv Inc", "Fortinet Inc","Gilead Sciences Inc","Alphabet Class C","Alphabet Class A",
+//    "Meta Platforms Inc",
+    "Fiserv Inc", "Fortinet Inc","Gilead Sciences Inc","Alphabet Class C","Alphabet Class A",
     "Honeywell International Inc", "Intel Corp","Intuit Inc","Intuitive Surgical Inc","Marvell Technology Inc",
     "IDEXX Laboratories Inc","Shopify Inc","Keurig Dr Pepper Inc","KLA Corp","Kraft Heinz Co","Lam Research Corp",
     "Lululemon Athletica Inc","MercadoLibre Inc","Marriott International Inc","Microchip Technology Inc",
@@ -5851,11 +5852,11 @@ let usNASDAQTop100WithoutIncOrCompanySufffix = [
 // const wellKnownPrivateOrgs = []
 
 let miscOrgs = [
-    "Meta", "Facebook", "Instagram", "YouTube", "LinkedIn",
+    "Meta Platforms", "Facebook", "Instagram", "YouTube", "LinkedIn",
     "Uber", "Airbnb", "Spotify", "Nike", "Adidas", "Coca-Cola", "McDonald\'s",
     "Walmart", "Target", "Home Depot", "Best Buy", "GameStop", "AMC", "Disney", "Warner Bros",
     "EA Sports", "Activision", "Blizzard", "Ford", "General Motors", "JPMorgan Chase",
-    "Bank of America","General Motors", "Wells Fargo", "Goldman Sachs", "Visa", "Mastercard",
+    "Bank of America", "Wells Fargo", "Goldman Sachs", "Visa", "Mastercard",
     "PayPal", "Square", "Robinhood", "Coinbase", "Binance"]
 
 // These ones could potential need a different source than fec.gov for finanical contributions.

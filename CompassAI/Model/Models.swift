@@ -188,8 +188,8 @@ struct FinancialContributionsResponse: Codable {
     let queryType: String?
     let debug: FinancialDebugInfo?
     let percentContributions: PercentContributions?
-    let contributionTotals: [ContributionTotal]?
-    let leadershipContributionsToCommittee: [LeadershipContribution]?
+    var contributionTotals: [ContributionTotal]?
+    var leadershipContributionsToCommittee: [LeadershipContribution]?
     
     enum CodingKeys: String, CodingKey {
         case topic

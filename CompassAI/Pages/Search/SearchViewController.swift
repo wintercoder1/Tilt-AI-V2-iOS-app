@@ -567,19 +567,19 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                     let financialContributions = freshObject.finanicial_contributions_overview
                     let finanical_exits = financialContributions != nil
                     var financialContributionsOverviewAnaylsis: FinancialContributionsAnalysis?
-                    print("||Financial contributions loaded: \(finanical_exits)")
-                    if let financial = financialContributions {
-                        print("Committee: \(financial.committee_name ?? "nil")")
-                        print("Summary: \(financial.fec_financial_contributions_summary_text?.prefix(100) ?? "nil")")
+//                    print("||Financial contributions loaded: \(finanical_exits)")
+                    if let financial_contributions = financialContributions {
+//                        print("Committee: \(financial.committee_name ?? "nil")")
+//                        print("Summary: \(financial.fec_financial_contributions_summary_text?.prefix(100) ?? "nil")")
                         
-                        print("Financial percent_contributions          \(financial.percent_contributions)\n")
-                        print("Financial contributions_totals_list      \(financial.contributions_totals_list)\n")
-                        print("Financial leadership_contributions_list  \(financial.leadership_contributions_list)\n\n")
+//                        print("Financial percent_contributions          \(financial.percent_contributions)\n")
+//                        print("||Financial contributions_totals_list      \(financial.contributions_totals_list)\n")
+//                        print("||Financial leadership_con//**tributions_list  \(financial.leadership_contrib*/utions_list)\n\n")
                         
                         // Percent contributions.
                         // This is much more important than the other two sub relations.
                         var percentContributions:PercentContributions?
-                        if let percentContributionsManagedObject = financial.percent_contributions {
+                        if let percentContributionsManagedObject = financial_contributions.percent_contributions {
                             percentContributions = PercentContributions(
                                 totalToDemocrats: Int(percentContributionsManagedObject.total_to_democrats),
                                 totalToRepublicans: Int(percentContributionsManagedObject.total_to_republicans),
@@ -591,40 +591,47 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                             
                         }
                         
-                        // TODO: Deserialize the list objects.
+                        
                         // I think this is kind of different than the other ones.
-//                        // Contribution totals
-//                        var contributionTotalsList = [ContributionTotal]()
-//                        if let contributionTotalsListManagedObject = financial.contributions_totals_list {
-//                            // financial.contributions_totals_list
-//                            for one_contributionTotalsListManagedObject in contributionTotalsListManagedObject {
-//                                oneContributionTotal = ContributionTotal(
-//                                    recipientID: one_contributionTotalsListManagedObject.get,
-//                                    recipientName: <#T##String?#>,
-//                                    numberOfContributions: <#T##Int?#>,
-//                                    totalContributionAmount: <#T##Int?#>)
-//                            }
-//                        }
+                        // Contribution totals
+                        // TODO: This feels like way to much for object deserialization. Think of a more modern way to do this.
+                        var contributionTotalsList = [ContributionTotal]()
+                        _ = financial_contributions.contributions_totals_list?.count
+                        if let contributionTotalsListManagedObject = financial_contributions.contributions_totals_list {
+                            
+//                            print("|| contributionTotalsListManagedObject \(contributionTotalsListManagedObject)")
+                            for case let one_contributionTotalsListManagedObject as     FinancialContribution_ContributionTotals_ListItem in contributionTotalsListManagedObject {
+                                let oneContributionTotal = ContributionTotal(
+                                    recipientID: one_contributionTotalsListManagedObject.recipient_id,
+                                    recipientName: one_contributionTotalsListManagedObject.recipient_name,
+                                    numberOfContributions: Int(one_contributionTotalsListManagedObject.number_of_contributions),
+                                    totalContributionAmount: Int(one_contributionTotalsListManagedObject.total_contribution_amount)
+                                )
+                                contributionTotalsList.append(oneContributionTotal)
+                            }
+                        }
 //                        
-//                        // Leadership contributions
-//                        var leadershipContributionsToCommitteeList = [LeadershipContribution]()
-//                        if let leadershipContributionsToCommitteeListManagedObject = financial.leadership_contributions_list {
-//                            for one_leadershipContributionsToCommitteeManagedObject in leadershipContributionsToCommitteeListManagedObject {
-//                                oneleadershipContributionsToCommittee = LeadershipContribution(
-//                                    occupation: <#T##String#>,
-//                                    name: <#T##String#>,
-//                                    employer: <#T##String#>,
-//                                    transactionAmount: <#T##String#>)
-//                            }
-//                        }
+                        // Leadership contributions
+                        var leadershipContributionsToCommitteeList = [LeadershipContribution]()
+                        if let leadershipContributionsToCommitteeListManagedObject = financial_contributions.leadership_contributions_list {
+//                            print("|| leadershipContributionsToCommitteeListManagedObject \(leadershipContributionsToCommitteeListManagedObject)")
+                            for case let one_leadershipContributionsToCommitteeManagedObject as     FinancialContribution_LeadershipContributorsToCommittee_ListItem in leadershipContributionsToCommitteeListManagedObject {
+                                let oneleadershipContributionsToCommittee = LeadershipContribution(
+                                    occupation: one_leadershipContributionsToCommitteeManagedObject.occupation  ?? "",
+                                    name: one_leadershipContributionsToCommitteeManagedObject.name  ?? "",
+                                    employer: one_leadershipContributionsToCommitteeManagedObject.employer  ?? "",
+                                    transactionAmount: one_leadershipContributionsToCommitteeManagedObject.transaction_amount ?? "")
+                                leadershipContributionsToCommitteeList.append(oneleadershipContributionsToCommittee)
+                            }
+                        }
                         
                         financialContributionsOverviewAnaylsis = FinancialContributionsAnalysis(
-                            financialContributionsText: financial.fec_financial_contributions_summary_text,
-                            committeeOrPACName: financial.committee_name,
-                            committeeOrPACID: financial.committee_id,
+                            financialContributionsText: financial_contributions.fec_financial_contributions_summary_text,
+                            committeeOrPACName: financial_contributions.committee_name,
+                            committeeOrPACID: financial_contributions.committee_id,
                             percentContributions: percentContributions,
-                            contributionTotals: nil,
-                            leadershipContributionsToCommittee: nil)
+                            contributionTotals: contributionTotalsList,
+                            leadershipContributionsToCommittee: leadershipContributionsToCommitteeList)
                         
                     }
                     
